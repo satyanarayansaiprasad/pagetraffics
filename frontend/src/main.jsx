@@ -7,9 +7,8 @@ const mountReactApp = () => {
   const rawPath = window.location.pathname;
   const pathname = rawPath.length > 1 && rawPath.endsWith('/') ? rawPath.slice(0, -1) : rawPath;
 
-  const validPaths = ['/about', '/services', '/contact'];
-
-  if (validPaths.includes(pathname.toLowerCase())) {
+  // Mount React for all application SPA routes
+  if (pathname.toLowerCase() !== '/') {
     const rootElement = document.getElementById('root');
     if (rootElement) {
       ReactDOM.createRoot(rootElement).render(<App />);

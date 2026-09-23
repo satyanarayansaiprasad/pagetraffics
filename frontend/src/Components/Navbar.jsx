@@ -50,15 +50,24 @@ const Navbar = () => {
                 >
                   FAQs
                 </a>
-                <Link to="/about" className="nav-link">About</Link>
+                <Link to="/about" className={`nav-link ${location.pathname === '/about' ? 'w--current' : ''}`} style={location.pathname === '/about' ? { color: '#FF6900', fontWeight: '800' } : {}}>About</Link>
                 <div className="nav-link-separator"></div>
-                <Link to="/services" className="nav-link">Services</Link>
+                <Link to="/services" className={`nav-link ${location.pathname === '/services' ? 'w--current' : ''}`} style={location.pathname === '/services' ? { color: '#FF6900', fontWeight: '800' } : {}}>Services</Link>
                 <div className="nav-link-separator"></div>
-                <Link to="/contact" className="nav-link">Contact</Link>
-                <div className="nav-link-separator"></div>
-                <Link to="/login" className="nav-link" style={{ fontWeight: '700', color: '#193CB8' }}>Log In</Link>
-                <div className="nav-link-separator"></div>
-                <Link to="/register" className="nav-link" style={{ fontWeight: '700', color: '#FF6900' }}>Sign Up</Link>
+                <Link to="/contact" className={`nav-link ${location.pathname === '/contact' ? 'w--current' : ''}`} style={location.pathname === '/contact' ? { color: '#FF6900', fontWeight: '800' } : {}}>Contact</Link>
+                {currentUser ? (
+                  <>
+                    <div className="nav-link-separator"></div>
+                    <Link to="/customer/dashboard" className={`nav-link ${location.pathname.startsWith('/customer') || location.pathname === '/projects' ? 'w--current' : ''}`} style={{ fontWeight: '700', color: '#193CB8' }}>Dashboard</Link>
+                  </>
+                ) : (
+                  <>
+                    <div className="nav-link-separator"></div>
+                    <Link to="/login" className="nav-link" style={{ fontWeight: '700', color: '#193CB8' }}>Log In</Link>
+                    <div className="nav-link-separator"></div>
+                    <Link to="/register" className="nav-link" style={{ fontWeight: '700', color: '#FF6900' }}>Sign Up</Link>
+                  </>
+                )}
               </div>
             </div>
             
@@ -75,7 +84,7 @@ const Navbar = () => {
               <a 
                 href="/" 
                 className="logo-link" 
-                style={containerStyle}
+                style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}
                 onClick={(e) => {
                   if (location.pathname !== '/') {
                     e.preventDefault();
@@ -83,19 +92,26 @@ const Navbar = () => {
                   }
                 }}
               >
-                <span style={{ color: '#ff6900', fontSize: '30px', fontWeight: 'bold' }}>
-                  PAGE
-                </span>
-                <span
-                  style={{
-                    color: '#193cb8',
-                    fontSize: '30px',
-                    fontWeight: 'bold',
-                    marginLeft: isMobile ? '0' : '0.2rem',
-                  }}
-                >
-                  TRAFFICS
-                </span>
+                <img 
+                  src="/logo.jpeg" 
+                  alt="PageTraffics Logo" 
+                  style={{ height: '42px', width: 'auto', borderRadius: '8px', objectFit: 'contain' }} 
+                />
+                <div style={{ display: 'flex', alignItems: 'center', lineHeight: '1' }}>
+                  <span style={{ color: '#ff6900', fontSize: '26px', fontWeight: '800' }}>
+                    PAGE
+                  </span>
+                  <span
+                    style={{
+                      color: '#193cb8',
+                      fontSize: '26px',
+                      fontWeight: '800',
+                      marginLeft: '3px',
+                    }}
+                  >
+                    TRAFFICS
+                  </span>
+                </div>
               </a>
             </div>
             

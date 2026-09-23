@@ -5,8 +5,9 @@ const Footer = () => {
   return (
     <div className="footer">
       <div className="footer-wrapper">
-        <div className="landing-page-block">
-          <div className="landing-page-block-text">Page Traffics</div>
+        <div className="landing-page-block" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', padding: '1rem 0' }}>
+          <img src="/logo.jpeg" alt="PageTraffics Logo" style={{ height: '50px', width: 'auto', borderRadius: '10px' }} />
+          <div className="landing-page-block-text" style={{ margin: 0 }}>Page Traffics</div>
         </div>
         <div className="container">
           <div className="footer-content-wrapper">

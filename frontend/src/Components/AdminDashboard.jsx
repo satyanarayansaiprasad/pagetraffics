@@ -625,11 +625,15 @@ const AdminDashboard = () => {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.2rem', marginBottom: '2rem' }}>
               <div style={{ background: '#f8fafc', padding: '1.2rem', borderRadius: '14px', border: '1px solid #cbd5e1' }}>
                 <span style={{ fontSize: '0.8rem', color: '#64748b', display: 'block' }}>Total Gross Revenue</span>
-                <strong style={{ color: '#10b981', fontSize: '1.5rem' }}>₹2,50,000</strong>
+                <strong style={{ color: '#10b981', fontSize: '1.5rem' }}>
+                  ₹{projects.reduce((total, p) => total + (p.paymentHistory || []).reduce((sum, item) => sum + (parseFloat(item.amount) || 0), 0), 0).toLocaleString()}
+                </strong>
               </div>
               <div style={{ background: '#f8fafc', padding: '1.2rem', borderRadius: '14px', border: '1px solid #cbd5e1' }}>
                 <span style={{ fontSize: '0.8rem', color: '#64748b', display: 'block' }}>Project Proposal Conversion Rate</span>
-                <strong style={{ color: '#193CB8', fontSize: '1.5rem' }}>87.5%</strong>
+                <strong style={{ color: '#193CB8', fontSize: '1.5rem' }}>
+                  {projects.length > 0 ? Math.round((projects.filter(p => p.acceptedPackage || p.status === 'Approved' || p.status === 'Development Started' || p.status === 'Completed').length / projects.length) * 100) : 0}%
+                </strong>
               </div>
               <div style={{ background: '#f8fafc', padding: '1.2rem', borderRadius: '14px', border: '1px solid #cbd5e1' }}>
                 <span style={{ fontSize: '0.8rem', color: '#64748b', display: 'block' }}>Active Google Meet Consultations</span>
