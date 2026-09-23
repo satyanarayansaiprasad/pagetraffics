@@ -14,9 +14,7 @@ import {
   FaPaperPlane,
   FaArrowLeft
 } from 'react-icons/fa';
-import { collection, addDoc } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { db, storage } from '../firebase/config';
+import axios from 'axios';
 
 const ALLOWED_EXTENSIONS = ['pdf', 'doc', 'docx', 'png', 'jpg', 'jpeg', 'zip'];
 const MAX_FILE_SIZE_BYTES = 2 * 1024 * 1024; // 2 MB
@@ -79,62 +77,39 @@ const CreateProject = () => {
     setSubmitting(true);
 
     try {
-      // 1. Upload files to Firebase Storage or create metadata
-      const uploadedDocs = [];
+      const uploadedDocs = selectedFiles.map(file => ({
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        url: ''
+      }));
 
-      for (let file of selectedFiles) {
-        try {
-          const storagePath = `projects/${currentUser.uid}/${Date.now()}_${file.name}`;
-          const storageRef = ref(storage, storagePath);
-          await uploadBytes(storageRef, file);
-          const downloadUrl = await getDownloadURL(storageRef);
+      const token = localStorage.getItem('token');
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
-          uploadedDocs.push({
-            name: file.name,
-            size: file.size,
-            type: file.type,
-            url: downloadUrl
-          });
-        } catch (uploadErr) {
-          console.warn('Storage upload fallback:', uploadErr);
-          // Metadata fallback if storage rule blocks direct blob
-          uploadedDocs.push({
-            name: file.name,
-            size: file.size,
-            type: file.type,
-            url: ''
-          });
-        }
-      }
-
-      // 2. Create Project document in Firestore
       const projectPayload = {
-        customerUid: currentUser.uid,
-        customerEmail: currentUser.email,
-        customerName: userData?.displayName || currentUser.displayName || 'Customer',
+        userUid: currentUser?.uid,
+        customerEmail: currentUser?.email,
+        customerName: userData?.displayName || currentUser?.displayName || 'Customer',
         projectName: projectName.trim(),
         businessName: businessName.trim(),
         description: description.trim(),
         requirements: requirements.trim(),
         budget: budget ? budget.trim() : 'Flexible',
         deadline: deadline,
-        documents: uploadedDocs,
-        status: 'Submitted', // Default initial status
-        meetingUrl: '', // Generated ONLY after approval
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
+        documents: uploadedDocs
       };
 
-      await addDoc(collection(db, 'projects'), projectPayload);
+      await axios.post('/api/projects', projectPayload, { headers });
 
       setSuccess('Project profile created successfully! Redirecting to tracking dashboard...');
       setTimeout(() => {
-        navigate('/projects');
+        navigate('/customer/dashboard');
       }, 2000);
 
     } catch (err) {
       console.error('Create project error:', err);
-      setError('Failed to create project profile. Please try again.');
+      setError(err.response?.data?.error || 'Failed to create project profile. Please try again.');
     } finally {
       setSubmitting(false);
     }
