@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-const homeHtmlContent = `      <div class="main-wrapper">
+const homeHtmlContent = `<div class="main-wrapper">
         <section class="section_hero">
           <div class="container">
             <div class="hero-content-wrapper">
@@ -55,21 +55,7 @@ const homeHtmlContent = `      <div class="main-wrapper">
             </div>
           </div>
           <div class="hero-script w-embed w-script">
-            <script>
-              function loadSVG(file) {
-                fetch(file)
-                  .then((response) => response.text())
-                  .then((svgContent) => {
-                    document.getElementById("hero-bg-vector").innerHTML =
-                      svgContent;
-                  })
-                  .catch((error) => console.error("Error loading SVG:", error));
-              }
-
-              loadSVG(
-                "https://cdn.prod.website-files.com/66b9fea0255a62f72cd6f025/66bd8829df9b46464c1a3192_Hero%20BG%20Vector.txt"
-              );
-            </script>
+            
           </div>
         </section>
         <section class="section_design_pages">
@@ -4663,8 +4649,7 @@ const homeHtmlContent = `      <div class="main-wrapper">
             </div>
           </div>
         </section>
-      </div>
-`;
+      </div>`;
 
 const Home = () => {
   useEffect(() => {
