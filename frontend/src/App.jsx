@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
-import Home from './Components/Home';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import About from './Components/About';
 import Service from './Components/Service';
 import Navbar from './Components/Navbar';
@@ -19,10 +18,9 @@ import { ProtectedRoute, AdminRoute } from './Components/ProtectedRoute';
 import { AuthProvider } from './contexts/AuthContext';
 
 const RouteFallback = () => {
-  const navigate = useNavigate();
   useEffect(() => {
-    navigate('/', { replace: true });
-  }, [navigate]);
+    window.location.href = '/';
+  }, []);
   return null;
 };
 
@@ -32,9 +30,6 @@ const App = () => {
       <Router>
         <Navbar />
         <Routes>
-          {/* Homepage */}
-          <Route path="/" element={<Home />} />
-
           {/* Public Subpages */}
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Service />} />
