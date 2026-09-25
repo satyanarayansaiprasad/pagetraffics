@@ -37,15 +37,19 @@ app.all('/api/tickets', (req, res) => handleTickets(req, res));
 app.all('/api/send-email', (req, res) => sendEmailHandler(req, res));
 app.all('/api/razorpay', (req, res) => razorpayHandler(req, res));
 
-// Serve Vite Static Production Build
-const distPath = path.join(__dirname, 'dist');
+const distPath = path.resolve(__dirname, 'dist');
 app.use(express.static(distPath));
 
 // Fallback to index.html for React Router SPA routes
 app.get('*', (req, res) => {
-  res.sendFile(path.join(distPath, 'index.html'));
+  res.sendFile(path.join(distPath, 'index.html'), (err) => {
+    if (err) {
+      res.status(500).send("Error loading application: " + err.message);
+    }
+  });
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 PageTraffics Production Express Server with MySQL DB running on port ${PORT}`);
+  console.log(`🚀 PageTraffics Server running on port ${PORT}`);
+  console.log(`📂 Static folder: ${distPath}`);
 });
