@@ -83,13 +83,14 @@
           autoAlpha: 0,
           y: 60,
         });
-        document
-          .querySelector(".page-wrapper")
-          .addEventListener("wheel", preventScroll);
+        const pw = document.querySelector(".page-wrapper");
+        if (pw) {
+          pw.addEventListener("wheel", preventScroll);
+        }
         setTimeout(function () {
-          document
-            .querySelector(".page-wrapper")
-            .removeEventListener("wheel", preventScroll);
+          if (pw) {
+            pw.removeEventListener("wheel", preventScroll);
+          }
           ScrollTrigger.batch("[hero-load]", {
             onEnter: (elements) => {
               gsap.fromTo(

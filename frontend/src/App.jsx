@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import Home from './Components/Home';
 import About from './Components/About';
 import Service from './Components/Service';
 import Navbar from './Components/Navbar';
@@ -17,35 +18,14 @@ import AdminDashboard from './Components/AdminDashboard';
 import { ProtectedRoute, AdminRoute } from './Components/ProtectedRoute';
 import { AuthProvider } from './contexts/AuthContext';
 
-// RouteManager toggles static #landing-page visibility based on URL path
-const RouteManager = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    const landingEl = document.getElementById('landing-page');
-    if (landingEl) {
-      const isHome = location.pathname === '/' || location.pathname === '' || location.hash !== '';
-      if (isHome && (location.pathname === '/' || location.pathname === '')) {
-        landingEl.style.display = 'block';
-      } else {
-        landingEl.style.display = 'none';
-      }
-    }
-    window.scrollTo(0, 0);
-  }, [location.pathname, location.hash]);
-
-  return null;
-};
-
 const App = () => {
   return (
     <AuthProvider>
       <Router>
-        <RouteManager />
         <Navbar />
         <Routes>
-          {/* Homepage renders null as static #landing-page HTML is visible below Navbar */}
-          <Route path="/" element={null} />
+          {/* Homepage */}
+          <Route path="/" element={<Home />} />
 
           {/* Public Subpages */}
           <Route path="/about" element={<About />} />
@@ -101,8 +81,8 @@ const App = () => {
             }
           />
 
-          {/* Fallback to null (or homepage) */}
-          <Route path="*" element={null} />
+          {/* Fallback to Home */}
+          <Route path="*" element={<Home />} />
         </Routes>
         <Footer />
       </Router>
