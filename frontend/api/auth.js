@@ -1,7 +1,6 @@
 import pool from './db.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { v4 as uuidv4 } from 'uuid';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'pagetraffics_secure_jwt_secret_key_2026';
 
