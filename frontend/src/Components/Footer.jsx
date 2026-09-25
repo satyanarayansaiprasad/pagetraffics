@@ -5,10 +5,24 @@ const Footer = () => {
   return (
     <div className="footer">
       <div className="footer-wrapper">
-        <div className="landing-page-block" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', padding: '1rem 0' }}>
-          <img src="/logo.jpeg" alt="PageTraffics Logo" style={{ height: '50px', width: 'auto', borderRadius: '10px' }} />
-          <div className="landing-page-block-text" style={{ margin: 0 }}>Page Traffics</div>
+        <div className="landing-page-block" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', padding: '1.5rem 0' }}>
+          <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
+            <img 
+              src="/logo.jpeg" 
+              alt="PageTraffics Logo" 
+              style={{ height: '54px', width: 'auto', borderRadius: '10px', objectFit: 'contain' }} 
+            />
+            <div style={{ display: 'flex', alignItems: 'center', lineHeight: '1' }}>
+              <span style={{ color: '#FF6900', fontSize: '28px', fontWeight: '800', letterSpacing: '-0.5px' }}>
+                PAGE
+              </span>
+              <span style={{ color: '#193CB8', fontSize: '28px', fontWeight: '800', marginLeft: '4px', letterSpacing: '-0.5px' }}>
+                TRAFFICS
+              </span>
+            </div>
+          </Link>
         </div>
+
         <div className="container">
           <div className="footer-content-wrapper">
             <div className="footer-content-block is-border">
@@ -47,23 +61,29 @@ const Footer = () => {
                 </a>
               </div>
             </div>
+
             <div className="footer-links-wrapper">
               <div className="footer-content-block">
                 <div className="footer-title">Quick Links</div>
                 <div className="footer-link-block">
-                  <a href="/#clients" className="footer-link">Our Client</a>
+                  <Link to="/" className="footer-link">Home</Link>
                   <Link to="/about" className="footer-link">About Us</Link>
                   <Link to="/services" className="footer-link">Services</Link>
+                  <a href="/#featured-case-study" className="footer-link">Case Studies</a>
+                  <a href="/#faqs" className="footer-link">FAQs</a>
                   <Link to="/contact" className="footer-link">Contact Us</Link>
-                  <a href="/#reviews" className="footer-link">Reviews</a>
+                  <Link to="/login" className="footer-link">Log In</Link>
+                  <Link to="/register" className="footer-link">Sign Up</Link>
                 </div>
               </div>
+
               <div className="footer-content-block">
                 <div className="footer-title">Office<br /></div>
                 <div className="footer-link-block is-address">
                   Plot No:-81, beside Road of Truptee Restaurant, Old Ag Colony, Unit 4, Madhusudan Nagar, Bhubaneswar, Odisha 751001<br />
                 </div>
               </div>
+
               <div className="footer-content-block">
                 <div className="footer-title">Contact Us<br /></div>
                 <div className="footer-link-block is-address">
@@ -79,10 +99,11 @@ const Footer = () => {
             </div>
           </div>
         </div>
+
         <div className="footer-cc">
           <div className="container">
             <div className="cc-block">
-              <div>© Page Traffics, 2025</div>
+              <div>© Page Traffics, 2026. All Rights Reserved.</div>
               <div className="div-block">
                 <div>Made with love</div>
                 <div className="heart-icon w-embed">
@@ -125,6 +146,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
+
         <div className="footer-gradient"></div>
       </div>
     </div>
