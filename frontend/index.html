@@ -18,6 +18,13 @@
       type="text/css"
     />
   <link rel="stylesheet" href="/static/style.css" />
+  <style>
+    [hero-load], [design-page] {
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: none !important;
+    }
+  </style>
 
 
     <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
@@ -76,12 +83,12 @@
         requestAnimationFrame(raf);
 
         gsap.set("[design-page]", {
-          autoAlpha: 0,
-          y: 60,
+          autoAlpha: 1,
+          y: 0,
         });
         gsap.set("[hero-load]", {
-          autoAlpha: 0,
-          y: 60,
+          autoAlpha: 1,
+          y: 0,
         });
         const pw = document.querySelector(".page-wrapper");
         if (pw) {
