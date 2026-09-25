@@ -5,21 +5,13 @@ const Footer = () => {
   return (
     <div className="footer">
       <div className="footer-wrapper">
-        <div className="landing-page-block" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', padding: '1.5rem 0' }}>
-          <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
+        <div className="landing-page-block" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem 0' }}>
+          <Link to="/" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' }}>
             <img 
               src="/logo.jpeg" 
               alt="PageTraffics Logo" 
               style={{ height: '54px', width: 'auto', borderRadius: '10px', objectFit: 'contain' }} 
             />
-            <div style={{ display: 'flex', alignItems: 'center', lineHeight: '1' }}>
-              <span style={{ color: '#FF6900', fontSize: '28px', fontWeight: '800', letterSpacing: '-0.5px' }}>
-                PAGE
-              </span>
-              <span style={{ color: '#193CB8', fontSize: '28px', fontWeight: '800', marginLeft: '4px', letterSpacing: '-0.5px' }}>
-                TRAFFICS
-              </span>
-            </div>
           </Link>
         </div>
 

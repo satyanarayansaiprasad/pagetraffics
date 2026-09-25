@@ -111,7 +111,7 @@ const Navbar = () => {
               </div>
             </div>
 
-            {/* Middle Nav Column: Brand Logo */}
+            {/* Middle Nav Column: ONLY Brand Logo (No Text) */}
             <div className="nav-col is-middle" style={{ display: 'flex', alignItems: 'center' }}>
               <div 
                 className="hamburger-box" 
@@ -124,30 +124,14 @@ const Navbar = () => {
               <Link 
                 to="/" 
                 className="logo-link" 
-                style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}
+                style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}
                 onClick={closeMobileMenu}
               >
                 <img 
                   src="/logo.jpeg" 
                   alt="PageTraffics Logo" 
-                  style={{ height: '42px', width: 'auto', borderRadius: '8px', objectFit: 'contain' }} 
+                  style={{ height: '48px', width: 'auto', borderRadius: '8px', objectFit: 'contain' }} 
                 />
-                <div style={{ display: 'flex', alignItems: 'center', lineHeight: '1' }}>
-                  <span style={{ color: '#FF6900', fontSize: '24px', fontWeight: '800', letterSpacing: '-0.5px' }}>
-                    PAGE
-                  </span>
-                  <span
-                    style={{
-                      color: '#193CB8',
-                      fontSize: '24px',
-                      fontWeight: '800',
-                      marginLeft: '4px',
-                      letterSpacing: '-0.5px',
-                    }}
-                  >
-                    TRAFFICS
-                  </span>
-                </div>
               </Link>
             </div>
 
