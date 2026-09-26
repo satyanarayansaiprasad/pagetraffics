@@ -1,4 +1,4 @@
-import pool from './db.js';
+import db from './db.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
@@ -13,15 +13,15 @@ export const registerUser = async (req, res) => {
     }
 
     // Check if user already exists
-    const [existing] = await pool.query('SELECT * FROM users WHERE email = ?', [email.toLowerCase().trim()]);
-    if (existing.length > 0) {
+    const [existing] = await db.query('SELECT * FROM users WHERE email = ?', [email.toLowerCase().trim()]);
+    if (existing && existing.length > 0) {
       return res.status(400).json({ success: false, error: 'User with this email already exists.' });
     }
 
     const uid = 'usr_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7);
     const password_hash = await bcrypt.hash(password, 10);
 
-    await pool.query(
+    await db.query(
       'INSERT INTO users (uid, email, password_hash, displayName, phone, role) VALUES (?, ?, ?, ?, ?, ?)',
       [uid, email.toLowerCase().trim(), password_hash, name || '', phone || '', role]
     );
@@ -56,8 +56,8 @@ export const loginUser = async (req, res) => {
       return res.status(400).json({ success: false, error: 'Email and password are required.' });
     }
 
-    const [rows] = await pool.query('SELECT * FROM users WHERE email = ?', [email.toLowerCase().trim()]);
-    if (rows.length === 0) {
+    const [rows] = await db.query('SELECT * FROM users WHERE email = ?', [email.toLowerCase().trim()]);
+    if (!rows || rows.length === 0) {
       return res.status(401).json({ success: false, error: 'Invalid email or password.' });
     }
 
@@ -99,8 +99,8 @@ export const getMe = async (req, res) => {
     const token = authHeader.split(' ')[1];
     const decoded = jwt.verify(token, JWT_SECRET);
 
-    const [rows] = await pool.query('SELECT * FROM users WHERE uid = ?', [decoded.uid]);
-    if (rows.length === 0) {
+    const [rows] = await db.query('SELECT * FROM users WHERE uid = ?', [decoded.uid]);
+    if (!rows || rows.length === 0) {
       return res.status(404).json({ success: false, error: 'User account not found.' });
     }
 
@@ -131,7 +131,7 @@ export const updateProfile = async (req, res) => {
     const decoded = jwt.verify(token, JWT_SECRET);
     const { displayName, phone } = req.body;
 
-    await pool.query(
+    await db.query(
       'UPDATE users SET displayName = ?, phone = ? WHERE uid = ?',
       [displayName || '', phone || '', decoded.uid]
     );

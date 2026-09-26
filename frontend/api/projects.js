@@ -1,4 +1,4 @@
-import pool from './db.js';
+import db from './db.js';
 import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'pagetraffics_secure_jwt_secret_key_2026';
@@ -28,15 +28,15 @@ export const handleProjects = async (req, res) => {
 
       let rows;
       if (isAdmin && !req.query.userUid) {
-        [rows] = await pool.query('SELECT * FROM projects ORDER BY id DESC');
+        [rows] = await db.query('SELECT * FROM projects ORDER BY id DESC');
       } else if (userUid) {
-        [rows] = await pool.query('SELECT * FROM projects WHERE user_uid = ? ORDER BY id DESC', [userUid]);
+        [rows] = await db.query('SELECT * FROM projects WHERE user_uid = ? ORDER BY id DESC', [userUid]);
       } else {
-        [rows] = await pool.query('SELECT * FROM projects ORDER BY id DESC');
+        [rows] = await db.query('SELECT * FROM projects ORDER BY id DESC');
       }
 
-      const projects = rows.map(r => ({
-        id: r.project_id || r.id.toString(),
+      const projects = (rows || []).map(r => ({
+        id: r.project_id || r.id?.toString(),
         db_id: r.id,
         userUid: r.user_uid,
         customerEmail: r.customerEmail,
@@ -81,7 +81,7 @@ export const handleProjects = async (req, res) => {
       const customerEmail = user?.email || req.body.customerEmail || 'customer@example.com';
       const customerName = req.body.customerName || 'Valued Client';
 
-      await pool.query(
+      await db.query(
         `INSERT INTO projects (project_id, user_uid, customerEmail, customerName, projectName, businessName, description, requirements, budget, deadline, status, documents)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
@@ -126,7 +126,7 @@ export const handleProjects = async (req, res) => {
 
       values.push(projectId);
 
-      await pool.query(
+      await db.query(
         `UPDATE projects SET ${updates.join(', ')} WHERE project_id = ? OR id = ?`,
         [...values, projectId]
       );
@@ -145,11 +145,11 @@ export const handleUsers = async (req, res) => {
   try {
     const user = getAuthUser(req);
     if (req.method === 'GET') {
-      const [rows] = await pool.query('SELECT uid, email, displayName, phone, role, createdAt FROM users ORDER BY id DESC');
-      return res.status(200).json({ success: true, users: rows });
+      const [rows] = await db.query('SELECT uid, email, displayName, phone, role, createdAt FROM users ORDER BY id DESC');
+      return res.status(200).json({ success: true, users: rows || [] });
     } else if (req.method === 'PUT') {
       const { uid, role } = req.body;
-      await pool.query('UPDATE users SET role = ? WHERE uid = ?', [role, uid]);
+      await db.query('UPDATE users SET role = ? WHERE uid = ?', [role, uid]);
       return res.status(200).json({ success: true, message: 'Role updated.' });
     }
   } catch (error) {
@@ -161,12 +161,12 @@ export const handleTickets = async (req, res) => {
   try {
     const user = getAuthUser(req);
     if (req.method === 'GET') {
-      const [rows] = await pool.query('SELECT * FROM support_tickets ORDER BY id DESC');
-      return res.status(200).json({ success: true, tickets: rows });
+      const [rows] = await db.query('SELECT * FROM support_tickets ORDER BY id DESC');
+      return res.status(200).json({ success: true, tickets: rows || [] });
     } else if (req.method === 'POST') {
       const { subject, category, priority, description } = req.body;
       const ticket_id = 'tkt_' + Date.now();
-      await pool.query(
+      await db.query(
         'INSERT INTO support_tickets (ticket_id, user_uid, customerEmail, subject, category, priority, description, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
         [ticket_id, user?.uid || 'guest', user?.email || 'customer@example.com', subject, category, priority, description, 'Open']
       );

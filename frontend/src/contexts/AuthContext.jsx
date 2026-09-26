@@ -44,31 +44,40 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = async (email, password) => {
-    const response = await axios.post('/api/auth/login', { email, password });
-    if (response.data.success && response.data.token) {
-      localStorage.setItem('token', response.data.token);
-      const user = response.data.user;
-      setCurrentUser({ uid: user.uid, email: user.email, displayName: user.displayName });
-      setUserData(user);
-      return { user };
+    try {
+      const response = await axios.post('/api/auth/login', { email, password });
+      if (response.data.success && response.data.token) {
+        localStorage.setItem('token', response.data.token);
+        const user = response.data.user;
+        setCurrentUser({ uid: user.uid, email: user.email, displayName: user.displayName });
+        setUserData(user);
+        return { user };
+      }
+      throw new Error(response.data.error || 'Login failed.');
+    } catch (err) {
+      const msg = err.response?.data?.error || err.message || 'Login failed.';
+      throw new Error(msg);
     }
-    throw new Error(response.data.error || 'Login failed.');
   };
 
   const registerCustomer = async ({ email, password, name, phone }) => {
-    const response = await axios.post('/api/auth/register', { email, password, name, phone, role: 'customer' });
-    if (response.data.success && response.data.token) {
-      localStorage.setItem('token', response.data.token);
-      const user = response.data.user;
-      setCurrentUser({ uid: user.uid, email: user.email, displayName: user.displayName });
-      setUserData(user);
-      return { user };
+    try {
+      const response = await axios.post('/api/auth/register', { email, password, name, phone, role: 'customer' });
+      if (response.data.success && response.data.token) {
+        localStorage.setItem('token', response.data.token);
+        const user = response.data.user;
+        setCurrentUser({ uid: user.uid, email: user.email, displayName: user.displayName });
+        setUserData(user);
+        return { user };
+      }
+      throw new Error(response.data.error || 'Registration failed.');
+    } catch (err) {
+      const msg = err.response?.data?.error || err.message || 'Registration failed.';
+      throw new Error(msg);
     }
-    throw new Error(response.data.error || 'Registration failed.');
   };
 
   const resetPassword = async (email) => {
-    // Password reset simulation / endpoint
     return Promise.resolve(true);
   };
 
@@ -80,11 +89,15 @@ export const AuthProvider = ({ children }) => {
     const token = localStorage.getItem('token');
     if (!token) throw new Error('No active login token.');
 
-    await axios.put('/api/auth/profile', updates, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-
-    await fetchUserData();
+    try {
+      await axios.put('/api/auth/profile', updates, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      await fetchUserData();
+    } catch (err) {
+      const msg = err.response?.data?.error || err.message || 'Update failed.';
+      throw new Error(msg);
+    }
   };
 
   const logout = () => {

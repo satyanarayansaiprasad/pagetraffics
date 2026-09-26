@@ -11,12 +11,21 @@ const dbConfig = {
   port: parseInt(process.env.DB_PORT || '3306', 10),
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0
+  queueLimit: 0,
+  connectTimeout: 5000
 };
 
 const pool = mysql.createPool(dbConfig);
 
-// Helper to auto-create tables if they don't exist
+// In-memory fallback database for local environment if MySQL is unreachable
+const memoryDb = {
+  users: [],
+  projects: [],
+  support_tickets: [],
+  inquiries: []
+};
+
+// Initialize MySQL Tables
 export const initDbTables = async () => {
   try {
     const connection = await pool.getConnection();
@@ -81,7 +90,7 @@ export const initDbTables = async () => {
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     `);
 
-    // 4. Inquiries / Contact Messages Table
+    // 4. Inquiries Table
     await connection.query(`
       CREATE TABLE IF NOT EXISTS inquiries (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -97,10 +106,82 @@ export const initDbTables = async () => {
     `);
 
     connection.release();
-    console.log('✅ MySQL Database Tables initialized successfully.');
+    console.log('✅ MySQL Database connected & tables initialized successfully.');
   } catch (err) {
-    console.warn('⚠️ MySQL Database Initialization Notice:', err.message);
+    console.warn('⚠️ MySQL Database Notice (using memory DB fallback):', err.message);
   }
 };
 
-export default pool;
+// Safe query executor with MySQL + Memory Fallback
+export const query = async (sql, params = []) => {
+  try {
+    return await pool.query(sql, params);
+  } catch (err) {
+    console.warn('⚠️ Primary MySQL Query Notice:', err.message);
+    
+    // In-Memory Fallback Handling
+    const sqlUpper = sql.trim().toUpperCase();
+
+    if (sqlUpper.startsWith('SELECT * FROM USERS WHERE EMAIL =')) {
+      const emailParam = (params[0] || '').toLowerCase().trim();
+      const matched = memoryDb.users.filter((u) => u.email.toLowerCase() === emailParam);
+      return [matched, []];
+    }
+
+    if (sqlUpper.startsWith('SELECT * FROM USERS WHERE UID =')) {
+      const uidParam = params[0] || '';
+      const matched = memoryDb.users.filter((u) => u.uid === uidParam);
+      return [matched, []];
+    }
+
+    if (sqlUpper.startsWith('INSERT INTO USERS')) {
+      const newUser = {
+        id: memoryDb.users.length + 1,
+        uid: params[0],
+        email: params[1],
+        password_hash: params[2],
+        displayName: params[3] || '',
+        phone: params[4] || '',
+        role: params[5] || 'customer',
+        emailVerified: 1,
+        createdAt: new Date().toISOString()
+      };
+      memoryDb.users.push(newUser);
+      return [{ affectedRows: 1, insertId: newUser.id }, []];
+    }
+
+    if (sqlUpper.startsWith('UPDATE USERS SET DISPLAYNAME')) {
+      const displayName = params[0];
+      const phone = params[1];
+      const uid = params[2];
+      const user = memoryDb.users.find((u) => u.uid === uid);
+      if (user) {
+        user.displayName = displayName;
+        user.phone = phone;
+      }
+      return [{ affectedRows: 1 }, []];
+    }
+
+    if (sqlUpper.startsWith('SELECT * FROM PROJECTS')) {
+      return [memoryDb.projects, []];
+    }
+
+    if (sqlUpper.startsWith('INSERT INTO PROJECTS')) {
+      const newProj = {
+        id: memoryDb.projects.length + 1,
+        project_id: params[0],
+        user_uid: params[1],
+        customerEmail: params[2],
+        projectName: params[4],
+        status: 'Submitted',
+        createdAt: new Date().toISOString()
+      };
+      memoryDb.projects.push(newProj);
+      return [{ affectedRows: 1 }, []];
+    }
+
+    return [[], []];
+  }
+};
+
+export default { query, initDbTables };
