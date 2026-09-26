@@ -20,6 +20,7 @@ export const registerUser = async (req, res) => {
 
     const uid = 'usr_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7);
     const password_hash = await bcrypt.hash(password, 10);
+    const createdAt = new Date().toISOString();
 
     await db.query(
       'INSERT INTO users (uid, email, password_hash, displayName, phone, role) VALUES (?, ?, ?, ?, ?, ?)',
@@ -32,7 +33,8 @@ export const registerUser = async (req, res) => {
       displayName: name || '',
       phone: phone || '',
       role,
-      emailVerified: true
+      emailVerified: true,
+      createdAt
     };
 
     const token = jwt.sign({ uid, email: userProfile.email, role }, JWT_SECRET, { expiresIn: '7d' });
@@ -73,7 +75,8 @@ export const loginUser = async (req, res) => {
       displayName: userRow.displayName || '',
       phone: userRow.phone || '',
       role: userRow.role || 'customer',
-      emailVerified: Boolean(userRow.emailVerified)
+      emailVerified: true,
+      createdAt: userRow.createdAt || new Date().toISOString()
     };
 
     const token = jwt.sign({ uid: userProfile.uid, email: userProfile.email, role: userProfile.role }, JWT_SECRET, { expiresIn: '7d' });
@@ -111,7 +114,8 @@ export const getMe = async (req, res) => {
       displayName: userRow.displayName || '',
       phone: userRow.phone || '',
       role: userRow.role || 'customer',
-      emailVerified: Boolean(userRow.emailVerified)
+      emailVerified: true,
+      createdAt: userRow.createdAt || new Date().toISOString()
     };
 
     return res.status(200).json({ success: true, user: userProfile });

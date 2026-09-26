@@ -7,17 +7,14 @@ import {
   FaEnvelope, 
   FaPhone, 
   FaUserShield, 
-  FaCheckCircle, 
-  FaExclamationTriangle, 
   FaSignOutAlt, 
   FaSave,
-  FaKey,
   FaCalendarAlt
 } from 'react-icons/fa';
 
 const CustomerProfile = () => {
   const navigate = useNavigate();
-  const { currentUser, userData, updateUserProfileData, logout, resetPassword, role } = useAuth();
+  const { currentUser, userData, updateUserProfileData, logout, role } = useAuth();
 
   const [displayName, setDisplayName] = useState('');
   const [phone, setPhone] = useState('');
@@ -51,18 +48,6 @@ const CustomerProfile = () => {
       setError('Failed to update profile. Please try again.');
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handlePasswordReset = async () => {
-    if (!currentUser?.email) return;
-    setMessage('');
-    setError('');
-    try {
-      await resetPassword(currentUser.email);
-      setMessage(`Password reset email sent to ${currentUser.email}.`);
-    } catch (err) {
-      setError('Failed to send password reset email.');
     }
   };
 
@@ -160,44 +145,6 @@ const CustomerProfile = () => {
               </button>
             </div>
           </div>
-
-          {/* Verification Warning if email not verified */}
-          {!currentUser?.emailVerified && (
-            <div style={{
-              padding: '1rem 1.2rem',
-              borderRadius: '14px',
-              background: '#fef3c7',
-              border: '1px solid #fde68a',
-              color: '#92400e',
-              fontSize: '0.92rem',
-              marginBottom: '1.5rem',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              gap: '1rem'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <FaExclamationTriangle />
-                <span>Your email is not verified yet. Verify your email to ensure full account access.</span>
-              </div>
-              <button
-                onClick={() => navigate('/verify-email')}
-                style={{
-                  padding: '6px 14px',
-                  background: '#92400e',
-                  color: '#ffffff',
-                  border: 'none',
-                  borderRadius: '8px',
-                  fontWeight: '700',
-                  cursor: 'pointer',
-                  fontSize: '0.85rem'
-                }}
-              >
-                Verify Email
-              </button>
-            </div>
-          )}
 
           {/* Quick Project Actions */}
           <div style={{
@@ -312,7 +259,7 @@ const CustomerProfile = () => {
                 <label style={labelStyle}><FaCalendarAlt style={{ color: '#FF6900' }} /> Account Created</label>
                 <input
                   type="text"
-                  value={userData?.createdAt ? new Date(userData.createdAt).toLocaleDateString() : 'N/A'}
+                  value={userData?.createdAt ? new Date(userData.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'N/A'}
                   disabled
                   style={{ ...inputStyle, background: '#f8fafc', color: '#64748b' }}
                 />
@@ -373,25 +320,6 @@ const CustomerProfile = () => {
                   Edit Profile Details
                 </button>
               )}
-
-              <button
-                type="button"
-                onClick={handlePasswordReset}
-                style={{
-                  padding: '12px 24px',
-                  background: '#ffffff',
-                  border: '1px solid rgba(25, 60, 184, 0.25)',
-                  color: '#193CB8',
-                  borderRadius: '10px',
-                  fontWeight: '700',
-                  cursor: 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px'
-                }}
-              >
-                <FaKey /> Request Password Reset Email
-              </button>
             </div>
           </form>
         </motion.div>
