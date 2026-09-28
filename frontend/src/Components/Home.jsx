@@ -929,49 +929,41 @@ const homeHtmlContent = `<div class="main-wrapper">
               </h2>
               <div class="center-sec-text">
                 It maximizes revenue and customer satisfaction by improving the
-                efficiency of your existing traffic, reducing costs.
+                efficiency of your existing traffic, reducing acquisition costs.
               </div>
             </div>
             <div class="custom-cro-grid">
               <div class="custom-cro-card">
+                <div class="custom-cro-icon-circle">📈</div>
                 <div class="custom-cro-badge">CRO &amp; UXO</div>
                 <h3 class="custom-cro-title">Increased Conversions</h3>
                 <p class="custom-cro-desc">
-                  Boosting conversions by optimizing user experience and CTAs for better engagement.
+                  Boosting conversion rates by optimizing user experience, mobile purchase flows, and strategic CTAs for higher customer engagement.
                 </p>
-                <div class="custom-cro-img-frame">
-                  <img src="8.png" alt="Increased Conversions Preview" class="custom-cro-img" />
-                </div>
               </div>
               <div class="custom-cro-card">
+                <div class="custom-cro-icon-circle">🚀</div>
                 <div class="custom-cro-badge">FUNNEL RETENTION</div>
                 <h3 class="custom-cro-title">Higher Revenue</h3>
                 <p class="custom-cro-desc">
-                  More revenue through improved sales funnels, A/B testing, and retention strategies.
+                  Drive more revenue per visitor through improved sales funnels, dynamic checkout upsells, continuous A/B testing, and retention strategies.
                 </p>
-                <div class="custom-cro-img-frame">
-                  <img src="9.png" alt="Higher Revenue Preview" class="custom-cro-img" />
-                </div>
               </div>
               <div class="custom-cro-card">
+                <div class="custom-cro-icon-circle">⚡</div>
                 <div class="custom-cro-badge">UX REDESIGN</div>
                 <h3 class="custom-cro-title">Reduced Bounce Rate</h3>
                 <p class="custom-cro-desc">
-                  Engaging designs that reduce drop-offs and keep users exploring your content.
+                  Engaging, ultra-fast landing page designs that eliminate friction, reduce user drop-offs, and keep visitors exploring your offer.
                 </p>
-                <div class="custom-cro-img-frame">
-                  <img src="11.png" alt="Reduced Bounce Rate Preview" class="custom-cro-img" />
-                </div>
               </div>
               <div class="custom-cro-card">
+                <div class="custom-cro-icon-circle">🎯</div>
                 <div class="custom-cro-badge">AD EFFICIENCY</div>
                 <h3 class="custom-cro-title">Lower Acquisition Cost</h3>
                 <p class="custom-cro-desc">
-                  Smart targeting and better funnel design that reduces your customer acquisition costs.
+                  Smart messaging and high-converting funnel designs that maximize your ad spend efficiency and lower your customer acquisition costs (CPA/CPL).
                 </p>
-                <div class="custom-cro-img-frame">
-                  <img src="12.png" alt="Lower Acquisition Cost Preview" class="custom-cro-img" />
-                </div>
               </div>
             </div>
           </div>
