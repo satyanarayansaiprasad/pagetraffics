@@ -57,8 +57,8 @@ const Footer = () => {
                   <Link to="/" className="footer-link">Home</Link>
                   <Link to="/about" className="footer-link">About Us</Link>
                   <Link to="/services" className="footer-link">Services</Link>
-                  <a href="/#featured-case-study" className="footer-link">Case Studies</a>
-                  <a href="/#faqs" className="footer-link">FAQs</a>
+                  <Link to="/case-studies" className="footer-link">Case Studies</Link>
+                  <Link to="/faqs" className="footer-link">FAQs</Link>
                   <Link to="/contact" className="footer-link">Contact Us</Link>
                   <Link to="/login" className="footer-link">Log In</Link>
                   <Link to="/register" className="footer-link">Sign Up</Link>

@@ -111,36 +111,14 @@ const Navbar = () => {
             </Link>
             <span style={{ color: '#CBD5E1' }}>|</span>
 
-            <a 
-              href="#featured-case-study" 
-              style={{
-                whiteSpace: 'nowrap',
-                fontSize: '0.92rem',
-                fontWeight: '600',
-                color: '#1E293B',
-                textDecoration: 'none',
-                padding: '6px 10px'
-              }}
-              onClick={(e) => handleAnchorClick(e, '#featured-case-study')}
-            >
+            <Link to="/case-studies" style={linkStyle('/case-studies')} onClick={closeMobileMenu}>
               Case Studies
-            </a>
+            </Link>
             <span style={{ color: '#CBD5E1' }}>|</span>
 
-            <a 
-              href="#faqs" 
-              style={{
-                whiteSpace: 'nowrap',
-                fontSize: '0.92rem',
-                fontWeight: '600',
-                color: '#1E293B',
-                textDecoration: 'none',
-                padding: '6px 10px'
-              }}
-              onClick={(e) => handleAnchorClick(e, '#faqs')}
-            >
+            <Link to="/faqs" style={linkStyle('/faqs')} onClick={closeMobileMenu}>
               FAQs
-            </a>
+            </Link>
             <span style={{ color: '#CBD5E1' }}>|</span>
 
             <Link to="/contact" style={linkStyle('/contact')} onClick={closeMobileMenu}>
@@ -330,8 +308,8 @@ const Navbar = () => {
             <Link to="/" onClick={closeMobileMenu} style={{ fontWeight: '600', color: '#1F2937', textDecoration: 'none' }}>Home</Link>
             <Link to="/about" onClick={closeMobileMenu} style={{ fontWeight: '600', color: '#1F2937', textDecoration: 'none' }}>About Us</Link>
             <Link to="/services" onClick={closeMobileMenu} style={{ fontWeight: '600', color: '#1F2937', textDecoration: 'none' }}>Services</Link>
-            <a href="#featured-case-study" onClick={(e) => handleAnchorClick(e, '#featured-case-study')} style={{ fontWeight: '600', color: '#1F2937', textDecoration: 'none' }}>Case Studies</a>
-            <a href="#faqs" onClick={(e) => handleAnchorClick(e, '#faqs')} style={{ fontWeight: '600', color: '#1F2937', textDecoration: 'none' }}>FAQs</a>
+            <Link to="/case-studies" onClick={closeMobileMenu} style={{ fontWeight: '600', color: '#1F2937', textDecoration: 'none' }}>Case Studies</Link>
+            <Link to="/faqs" onClick={closeMobileMenu} style={{ fontWeight: '600', color: '#1F2937', textDecoration: 'none' }}>FAQs</Link>
             <Link to="/contact" onClick={closeMobileMenu} style={{ fontWeight: '600', color: '#1F2937', textDecoration: 'none' }}>Contact Us</Link>
 
             <div style={{ height: '1px', background: '#E5E7EB', margin: '6px 0' }}></div>

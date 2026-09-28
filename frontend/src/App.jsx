@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-route
 import Home from './Components/Home';
 import About from './Components/About';
 import Service from './Components/Service';
+import CaseStudies from './Components/CaseStudies';
+import FAQs from './Components/FAQs';
 import Navbar from './Components/Navbar';
 import ContactForm from './Components/ContactForm';
 import Footer from './Components/Footer';
@@ -30,6 +32,8 @@ const App = () => {
           {/* Public Subpages */}
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Service />} />
+          <Route path="/case-studies" element={<CaseStudies />} />
+          <Route path="/faqs" element={<FAQs />} />
           <Route path="/contact" element={<ContactForm />} />
 
           {/* Customer Auth & Profile Routes */}
