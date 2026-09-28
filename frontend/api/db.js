@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const dbConfig = {
-  host: process.env.DB_HOST || 'localhost',
+  host: process.env.DB_HOST || '193.203.184.122',
   user: process.env.DB_USER || 'u865727365_pageTraffics',
   password: process.env.DB_PASSWORD || 'Satya@540720',
   database: process.env.DB_NAME || 'u865727365_pageTraffics',
