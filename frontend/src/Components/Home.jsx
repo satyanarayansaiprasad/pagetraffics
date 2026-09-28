@@ -918,107 +918,63 @@ const homeHtmlContent = `<div class="main-wrapper">
             </div>
           </div>
         </section>
-        <section id="why-landing-pages" class="section_cro_uxo">
+        <section id="why-landing-pages" class="custom-cro-section">
           <div class="container">
             <div class="content-center-box">
-              <div ele-animate="" class="label-box">
+              <div class="label-box">
                 <div>CRO &amp; UXO</div>
               </div>
-              <h2 animate="" class="heading-h2">
+              <h2 class="heading-h2">
                 Why <span class="gradient-text">Page Traffics?</span>
               </h2>
-              <div animate="" class="center-sec-text">
+              <div class="center-sec-text">
                 It maximizes revenue and customer satisfaction by improving the
                 efficiency of your existing traffic, reducing costs.
               </div>
             </div>
-            <div class="swiper is-cro-uxo">
-              <div class="cro-uxo-grid swiper-wrapper">
-                <div cro-uxo-box="" class="cro-uxo-col swiper-slide">
-                  <div class="cro-uxo-label">
-                    <div>CRO &amp; UXO</div>
-                  </div>
-                  <div class="cro-uxo-title">Increased Conversions</div>
-                  <div class="cro-uxo-desc">
-                    Boosting conversions by optimizing user experience and CTAs
-                    for better engagement.
-                  </div>
-                  <div class="cro-uxo-img-wrapper">
-                    <img
-                      src="8.png"
-                      loading="lazy"
-                      sizes="100vw"
-                      srcset="8.png 500w, 8.png 800w, 8.png 824w"
-                      alt=""
-                      class="cro-uxo-img"
-                    />
-                  </div>
-                </div>
-                <div cro-uxo-box="" class="cro-uxo-col swiper-slide">
-                  <div class="cro-uxo-label">
-                    <div>CRO &amp; UXO</div>
-                  </div>
-                  <div class="cro-uxo-title">Higher Revenue</div>
-                  <div class="cro-uxo-desc">
-                    More revenue through improved sales funnels, A/B testing,
-                    and retention strategies.
-                  </div>
-                  <div class="cro-uxo-img-wrapper">
-                    <img
-                      src="9.png"
-                      loading="lazy"
-                      sizes="100vw"
-                      srcset="9.png 500w, 9.png 824w"
-                      alt=""
-                      class="cro-uxo-img"
-                    />
-                  </div>
-                </div>
-                <div cro-uxo-box="" class="cro-uxo-col swiper-slide">
-                  <div class="cro-uxo-label">
-                    <div>CRO &amp; UXO</div>
-                  </div>
-                  <div class="cro-uxo-title">Reduced Bounce Rate</div>
-                  <div class="cro-uxo-desc">
-                    Engaging designs that reduce drop-offs and keep users
-                    exploring your content.
-                  </div>
-                  <div class="cro-uxo-img-wrapper">
-                    <img
-                      src="11.png"
-                      loading="lazy"
-                      sizes="100vw"
-                      srcset="11.png 500w, 11.png 800w, 11.png 824w"
-                      alt=""
-                      class="cro-uxo-img"
-                    />
-                  </div>
-                </div>
-                <div cro-uxo-box="" class="cro-uxo-col swiper-slide">
-                  <div class="cro-uxo-label">
-                    <div>CRO &amp; UXO</div>
-                  </div>
-                  <div class="cro-uxo-title">Lower Acquisition Cost</div>
-                  <div class="cro-uxo-desc">
-                    Smart targeting and better funnel design that reduces your
-                    customer acquisition costs.
-                  </div>
-                  <div class="cro-uxo-img-wrapper">
-                    <img
-                      src="12.png"
-                      loading="lazy"
-                      sizes="100vw"
-                      srcset="12.png 500w, 12.png 800w, 12.png 824w"
-                      alt=""
-                      class="cro-uxo-img"
-                    />
-                  </div>
+            <div class="custom-cro-grid">
+              <div class="custom-cro-card">
+                <div class="custom-cro-badge">CRO &amp; UXO</div>
+                <h3 class="custom-cro-title">Increased Conversions</h3>
+                <p class="custom-cro-desc">
+                  Boosting conversions by optimizing user experience and CTAs for better engagement.
+                </p>
+                <div class="custom-cro-img-frame">
+                  <img src="8.png" alt="Increased Conversions Preview" class="custom-cro-img" />
                 </div>
               </div>
-              <div class="swiper-pagination is-uxo"></div>
+              <div class="custom-cro-card">
+                <div class="custom-cro-badge">FUNNEL RETENTION</div>
+                <h3 class="custom-cro-title">Higher Revenue</h3>
+                <p class="custom-cro-desc">
+                  More revenue through improved sales funnels, A/B testing, and retention strategies.
+                </p>
+                <div class="custom-cro-img-frame">
+                  <img src="9.png" alt="Higher Revenue Preview" class="custom-cro-img" />
+                </div>
+              </div>
+              <div class="custom-cro-card">
+                <div class="custom-cro-badge">UX REDESIGN</div>
+                <h3 class="custom-cro-title">Reduced Bounce Rate</h3>
+                <p class="custom-cro-desc">
+                  Engaging designs that reduce drop-offs and keep users exploring your content.
+                </p>
+                <div class="custom-cro-img-frame">
+                  <img src="11.png" alt="Reduced Bounce Rate Preview" class="custom-cro-img" />
+                </div>
+              </div>
+              <div class="custom-cro-card">
+                <div class="custom-cro-badge">AD EFFICIENCY</div>
+                <h3 class="custom-cro-title">Lower Acquisition Cost</h3>
+                <p class="custom-cro-desc">
+                  Smart targeting and better funnel design that reduces your customer acquisition costs.
+                </p>
+                <div class="custom-cro-img-frame">
+                  <img src="12.png" alt="Lower Acquisition Cost Preview" class="custom-cro-img" />
+                </div>
+              </div>
             </div>
           </div>
-          <div class="cro-uxo-gradient-background"></div>
         </section>
         <section
           id="featured-case-study"

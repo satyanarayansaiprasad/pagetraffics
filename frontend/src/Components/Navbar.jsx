@@ -19,13 +19,17 @@ const Navbar = () => {
   const navigate = useNavigate();
   const { currentUser, isAdmin, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
 
   React.useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth > 1024) {
+      const mobile = window.innerWidth <= 1024;
+      setIsMobile(mobile);
+      if (!mobile) {
         setMobileOpen(false);
       }
     };
+    handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -273,13 +277,15 @@ const Navbar = () => {
             )}
 
             {/* Mobile Hamburger Toggle Button */}
-            <div 
-              className="navbar-mobile-toggle"
-              onClick={() => setMobileOpen(!mobileOpen)}
-              style={{ cursor: 'pointer', padding: '6px', color: '#193CB8' }}
-            >
-              {mobileOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
-            </div>
+            {isMobile && (
+              <div 
+                className="navbar-mobile-toggle"
+                onClick={() => setMobileOpen(!mobileOpen)}
+                style={{ cursor: 'pointer', padding: '6px', color: '#193CB8' }}
+              >
+                {mobileOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
+              </div>
+            )}
           </div>
 
         </div>
