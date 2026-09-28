@@ -531,3 +531,20 @@ body {
     max-height: 42px !important;
   }
 }
+
+/* Floating Glassmorphism Pill Navbar Mobile Toggle */
+@media (max-width: 1024px) {
+  .navbar-center-links {
+    display: none !important;
+  }
+
+  .navbar-mobile-toggle {
+    display: block !important;
+  }
+}
+
+@media (min-width: 1025px) {
+  .navbar-mobile-toggle {
+    display: none !important;
+  }
+}
