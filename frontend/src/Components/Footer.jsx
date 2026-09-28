@@ -5,13 +5,9 @@ const Footer = () => {
   return (
     <div className="footer">
       <div className="footer-wrapper">
-        <div className="landing-page-block" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem 0' }}>
-          <Link to="/" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' }}>
-            <img 
-              src="/logo.jpeg" 
-              alt="PageTraffics Logo" 
-              style={{ height: '54px', width: 'auto', borderRadius: '10px', objectFit: 'contain' }} 
-            />
+        <div className="landing-page-block">
+          <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <div className="landing-page-block-text">Page Traffics</div>
           </Link>
         </div>
 
