@@ -4637,6 +4637,53 @@ const Home = () => {
         window.ScrollTrigger.refresh();
       }, 100);
     }
+
+    const initSwiper = () => {
+      if (window.Swiper) {
+        new window.Swiper('.swiper.is-world-class-brands', {
+          slidesPerView: 1,
+          spaceBetween: 24,
+          loop: true,
+          grabCursor: true,
+          autoplay: {
+            delay: 3500,
+            disableOnInteraction: false,
+          },
+          pagination: {
+            el: '.world-class-brand-pagination',
+            clickable: true,
+          },
+          breakpoints: {
+            640: {
+              slidesPerView: 2,
+              spaceBetween: 20,
+            },
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 30,
+            },
+          },
+        });
+
+        new window.Swiper('.swiper.is-trust', {
+          slidesPerView: 3,
+          spaceBetween: 16,
+          loop: true,
+          autoplay: {
+            delay: 2500,
+            disableOnInteraction: false,
+          },
+          breakpoints: {
+            480: { slidesPerView: 4, spaceBetween: 20 },
+            768: { slidesPerView: 6, spaceBetween: 24 },
+            1024: { slidesPerView: 8, spaceBetween: 28 },
+          }
+        });
+      }
+    };
+
+    const timer = setTimeout(initSwiper, 300);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
