@@ -546,17 +546,27 @@ body {
 }
 
 /* Floating Glassmorphism Pill Navbar Mobile Toggle */
+.navbar-mobile-toggle {
+  display: none !important;
+}
+
 @media (max-width: 1024px) {
   .navbar-center-links {
     display: none !important;
   }
 
   .navbar-mobile-toggle {
-    display: block !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 }
 
 @media (min-width: 1025px) {
+  .navbar-center-links {
+    display: flex !important;
+  }
+
   .navbar-mobile-toggle {
     display: none !important;
   }

@@ -20,6 +20,16 @@ const Navbar = () => {
   const { currentUser, isAdmin, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  React.useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 1024) {
+        setMobileOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const handleLogout = async () => {
     try {
       await logout();
