@@ -108,7 +108,30 @@ export const initDbTables = async () => {
     connection.release();
     console.log('✅ MySQL Database connected & tables initialized successfully.');
   } catch (err) {
-    console.warn('⚠️ MySQL Database Notice (using memory DB fallback):', err.message);
+    console.error('❌ MySQL Database Connection / Table Init Failed:', err.message);
+  }
+};
+
+// Health Check for MySQL connection status
+export const checkDbStatus = async () => {
+  try {
+    const connection = await pool.getConnection();
+    const [rows] = await connection.query('SHOW TABLES;');
+    connection.release();
+    return {
+      connected: true,
+      host: dbConfig.host,
+      database: dbConfig.database,
+      tables: rows.map(r => Object.values(r)[0])
+    };
+  } catch (err) {
+    return {
+      connected: false,
+      host: dbConfig.host,
+      database: dbConfig.database,
+      error: err.message,
+      code: err.code
+    };
   }
 };
 
@@ -117,7 +140,7 @@ export const query = async (sql, params = []) => {
   try {
     return await pool.query(sql, params);
   } catch (err) {
-    console.warn('⚠️ Primary MySQL Query Notice:', err.message);
+    console.error('❌ Primary MySQL Query Error:', err.message, '| Code:', err.code);
     
     // In-Memory Fallback Handling
     const sqlUpper = sql.trim().toUpperCase();
@@ -184,4 +207,4 @@ export const query = async (sql, params = []) => {
   }
 };
 
-export default { query, initDbTables };
+export default { query, initDbTables, checkDbStatus };

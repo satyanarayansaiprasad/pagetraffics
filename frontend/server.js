@@ -3,7 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import sendEmailHandler from './api/send-email.js';
 import razorpayHandler from './api/razorpay.js';
-import { initDbTables } from './api/db.js';
+import { initDbTables, checkDbStatus } from './api/db.js';
 import { registerUser, loginUser, getMe, updateProfile } from './api/auth.js';
 import { handleProjects, handleUsers, handleTickets } from './api/projects.js';
 import dotenv from 'dotenv';
@@ -21,6 +21,12 @@ app.use(express.urlencoded({ extended: true }));
 
 // Initialize MySQL Tables
 initDbTables();
+
+// DB Health Check Endpoint
+app.get('/api/db-status', async (req, res) => {
+  const status = await checkDbStatus();
+  return res.status(status.connected ? 200 : 500).json(status);
+});
 
 // Auth REST API Routes
 app.post('/api/auth/register', (req, res) => registerUser(req, res));
