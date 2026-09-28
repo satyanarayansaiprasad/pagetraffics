@@ -4664,21 +4664,6 @@ const Home = () => {
             },
           },
         });
-
-        new window.Swiper('.swiper.is-trust', {
-          slidesPerView: 3,
-          spaceBetween: 16,
-          loop: true,
-          autoplay: {
-            delay: 2500,
-            disableOnInteraction: false,
-          },
-          breakpoints: {
-            480: { slidesPerView: 4, spaceBetween: 20 },
-            768: { slidesPerView: 6, spaceBetween: 24 },
-            1024: { slidesPerView: 8, spaceBetween: 28 },
-          }
-        });
       }
     };
 
