@@ -573,94 +573,134 @@ body {
 }
 
 /* ============================================================
-   SIMPLE TEXT-ONLY WHY PAGE TRAFFICS / CRO & UXO SECTION
+   PREMIUM TEXT-ONLY WHY PAGE TRAFFICS / CRO & UXO SECTION
    ============================================================ */
 .custom-cro-section {
-  padding: 5rem 0 !important;
-  background: radial-gradient(circle at 10% 20%, rgba(25, 60, 184, 0.03) 0%, rgba(255, 105, 0, 0.03) 90%) !important;
+  padding: 6rem 0 !important;
+  background: radial-gradient(circle at 50% 30%, rgba(25, 60, 184, 0.04) 0%, rgba(255, 105, 0, 0.03) 60%, #fafbfc 100%) !important;
   position: relative !important;
   z-index: 2 !important;
   clear: both !important;
+  border-top: 1px solid rgba(25, 60, 184, 0.06) !important;
+  border-bottom: 1px solid rgba(25, 60, 184, 0.06) !important;
 }
 
 .custom-cro-grid {
   display: grid !important;
   grid-template-columns: repeat(4, 1fr) !important;
   gap: 1.8rem !important;
-  margin-top: 3rem !important;
+  margin-top: 3.5rem !important;
   width: 100% !important;
   box-sizing: border-box !important;
 }
 
 .custom-cro-card {
   background: #ffffff !important;
-  border: 1px solid rgba(25, 60, 184, 0.12) !important;
+  border: 1px solid rgba(25, 60, 184, 0.1) !important;
   border-radius: 20px !important;
-  padding: 2.5rem 1.6rem !important;
-  box-shadow: 0 10px 30px rgba(25, 60, 184, 0.06) !important;
+  padding: 2.6rem 1.6rem 2.2rem 1.6rem !important;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02) !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   text-align: center !important;
-  transition: all 0.3s ease !important;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
   box-sizing: border-box !important;
   width: 100% !important;
-  height: 100% !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.custom-cro-card::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 4px !important;
+  background: linear-gradient(90deg, #193CB8, #FF6900) !important;
+  opacity: 0 !important;
+  transition: opacity 0.35s ease !important;
 }
 
 .custom-cro-card:hover {
-  transform: translateY(-6px) !important;
-  box-shadow: 0 18px 40px rgba(25, 60, 184, 0.14) !important;
-  border-color: #FF6900 !important;
+  transform: translateY(-8px) !important;
+  box-shadow: 0 20px 45px rgba(25, 60, 184, 0.12) !important;
+  border-color: rgba(255, 105, 0, 0.3) !important;
+}
+
+.custom-cro-card:hover::before {
+  opacity: 1 !important;
 }
 
 .custom-cro-icon-circle {
-  width: 58px !important;
-  height: 58px !important;
-  border-radius: 50% !important;
-  background: radial-gradient(circle at 10% 20%, rgba(255, 105, 0, 0.1) 0%, rgba(25, 60, 184, 0.08) 90%) !important;
-  border: 1px solid rgba(255, 105, 0, 0.2) !important;
+  width: 64px !important;
+  height: 64px !important;
+  border-radius: 18px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  font-size: 1.8rem !important;
-  margin-bottom: 1.2rem !important;
+  margin-bottom: 1.3rem !important;
+  transition: transform 0.3s ease !important;
+  box-sizing: border-box !important;
+}
+
+.custom-cro-card:hover .custom-cro-icon-circle {
+  transform: scale(1.08) rotate(3deg) !important;
+}
+
+.cro-icon-orange {
+  background: rgba(255, 105, 0, 0.08) !important;
+  border: 1px solid rgba(255, 105, 0, 0.2) !important;
+}
+
+.cro-icon-blue {
+  background: rgba(25, 60, 184, 0.08) !important;
+  border: 1px solid rgba(25, 60, 184, 0.2) !important;
 }
 
 .custom-cro-badge {
   display: inline-block !important;
   padding: 4px 14px !important;
   border-radius: 50px !important;
-  background: rgba(255, 105, 0, 0.08) !important;
-  border: 1px solid rgba(255, 105, 0, 0.25) !important;
-  color: #FF6900 !important;
-  font-size: 0.75rem !important;
+  background: rgba(25, 60, 184, 0.06) !important;
+  border: 1px solid rgba(25, 60, 184, 0.15) !important;
+  color: #193CB8 !important;
+  font-size: 0.72rem !important;
   font-weight: 800 !important;
-  letter-spacing: 0.8px !important;
+  letter-spacing: 0.9px !important;
   margin-bottom: 1rem !important;
   text-transform: uppercase !important;
+}
+
+.custom-cro-card:hover .custom-cro-badge {
+  background: rgba(255, 105, 0, 0.1) !important;
+  border-color: rgba(255, 105, 0, 0.3) !important;
+  color: #FF6900 !important;
 }
 
 .custom-cro-title {
   font-size: 1.35rem !important;
   font-weight: 800 !important;
-  color: #193CB8 !important;
+  color: #0f172a !important;
   margin: 0 0 0.8rem 0 !important;
   line-height: 1.3 !important;
+  font-family: inherit !important;
 }
 
 .custom-cro-desc {
   font-size: 0.94rem !important;
   color: #475569 !important;
-  line-height: 1.6 !important;
+  line-height: 1.65 !important;
   margin: 0 !important;
   font-weight: 400 !important;
+  font-family: inherit !important;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1100px) {
   .custom-cro-grid {
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: 1.5rem !important;
+    gap: 1.6rem !important;
   }
 }
 
@@ -671,6 +711,6 @@ body {
   }
 
   .custom-cro-card {
-    padding: 2rem 1.25rem !important;
+    padding: 2.2rem 1.4rem !important;
   }
 }
