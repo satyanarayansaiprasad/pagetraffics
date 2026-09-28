@@ -249,7 +249,7 @@ body {
   border-radius: 6px !important;
 }
 
-/* 3. CRO & UXO Section Layout Fixes (Self-Contained Cards with Inner Padding & Grid Gaps) */
+/* 3. CRO & UXO Section Layout Fixes (Full 4 Laptop Screens Displayed Cleanly) */
 .section_cro_uxo {
   position: relative !important;
   z-index: 3 !important;
@@ -274,18 +274,19 @@ body {
 .cro-uxo-col,
 .cro-uxo-col.swiper-slide {
   height: auto !important;
-  min-height: 480px !important;
+  min-height: 520px !important;
   display: flex !important;
   flex-direction: column !important;
   justify-content: space-between !important;
-  padding: 2.2rem 1.5rem 1.5rem 1.5rem !important;
+  align-items: center !important;
+  padding: 2rem 1.25rem 1.5rem 1.25rem !important;
   position: relative !important;
   background: #ffffff !important;
-  border-radius: 22px !important;
+  border-radius: 24px !important;
   box-shadow: 0 10px 30px rgba(25, 60, 184, 0.08) !important;
   border: 1px solid rgba(25, 60, 184, 0.12) !important;
   text-align: center !important;
-  overflow: hidden !important;
+  overflow: visible !important;
   box-sizing: border-box !important;
   transition: transform 0.3s ease, box-shadow 0.3s ease !important;
   width: 100% !important;
@@ -307,7 +308,7 @@ body {
   font-size: 0.78rem !important;
   font-weight: 800 !important;
   letter-spacing: 0.8px !important;
-  margin: 0 auto 1rem auto !important;
+  margin: 0 auto 0.8rem auto !important;
   width: fit-content !important;
   text-transform: uppercase !important;
 }
@@ -333,19 +334,25 @@ body {
 
 .cro-uxo-img-wrapper {
   position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
   inset: auto !important;
   width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
   margin-top: auto !important;
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
-  z-index: 1 !important;
-  overflow: hidden !important;
-  border-radius: 14px !important;
-  background: #f8fafc !important;
-  border: 1px solid rgba(0, 0, 0, 0.06) !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04) !important;
-  padding: 6px !important;
+  z-index: 2 !important;
+  overflow: visible !important;
+  border-radius: 12px !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
   box-sizing: border-box !important;
 }
 
@@ -353,8 +360,14 @@ body {
   width: 100% !important;
   max-width: 100% !important;
   height: auto !important;
+  max-height: 250px !important;
   object-fit: contain !important;
   display: block !important;
+  margin: 0 auto !important;
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  transform: none !important;
   border-radius: 10px !important;
   transition: transform 0.4s ease !important;
 }
