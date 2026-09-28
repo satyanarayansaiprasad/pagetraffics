@@ -80,9 +80,9 @@ const Navbar = () => {
               onClick={closeMobileMenu}
             >
               <img 
-                src="/logo.jpeg" 
+                src="/page_traffics_logo_web_master.png" 
                 alt="PageTraffics Logo" 
-                style={{ height: '46px', width: 'auto', borderRadius: '8px', objectFit: 'contain' }} 
+                style={{ height: '48px', width: 'auto', borderRadius: '6px', objectFit: 'contain' }} 
               />
             </Link>
           </div>
