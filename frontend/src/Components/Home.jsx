@@ -918,76 +918,7 @@ const homeHtmlContent = `<div class="main-wrapper">
             </div>
           </div>
         </section>
-        <section id="why-landing-pages" className="custom-cro-section">
-          <div className="container">
-            <div className="content-center-box">
-              <div className="label-box">
-                <div>CRO &amp; UXO</div>
-              </div>
-              <h2 className="heading-h2">
-                Why <span className="gradient-text">Page Traffics?</span>
-              </h2>
-              <div className="center-sec-text">
-                It maximizes revenue and customer satisfaction by improving the
-                efficiency of your existing traffic, reducing acquisition costs.
-              </div>
-            </div>
-            <div className="custom-cro-grid">
-              <div className="custom-cro-card">
-                <div className="custom-cro-icon-circle cro-icon-orange">
-                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FF6900" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
-                    <polyline points="16 7 22 7 22 13"></polyline>
-                  </svg>
-                </div>
-                <div className="custom-cro-badge">CRO &amp; UXO</div>
-                <h3 className="custom-cro-title">Increased Conversions</h3>
-                <p className="custom-cro-desc">
-                  Boosting conversion rates by optimizing user experience, mobile purchase flows, and strategic CTAs for higher customer engagement.
-                </p>
-              </div>
-              <div className="custom-cro-card">
-                <div className="custom-cro-icon-circle cro-icon-blue">
-                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#193CB8" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
-                    <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-3.05 11a22.35 22.35 0 0 1-3.95 2z"></path>
-                  </svg>
-                </div>
-                <div className="custom-cro-badge">FUNNEL RETENTION</div>
-                <h3 className="custom-cro-title">Higher Revenue</h3>
-                <p className="custom-cro-desc">
-                  Drive more revenue per visitor through improved sales funnels, dynamic checkout upsells, continuous A/B testing, and retention strategies.
-                </p>
-              </div>
-              <div className="custom-cro-card">
-                <div className="custom-cro-icon-circle cro-icon-orange">
-                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FF6900" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-                  </svg>
-                </div>
-                <div className="custom-cro-badge">UX REDESIGN</div>
-                <h3 className="custom-cro-title">Reduced Bounce Rate</h3>
-                <p className="custom-cro-desc">
-                  Engaging, ultra-fast landing page designs that eliminate friction, reduce user drop-offs, and keep visitors exploring your offer.
-                </p>
-              </div>
-              <div className="custom-cro-card">
-                <div className="custom-cro-icon-circle cro-icon-blue">
-                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#193CB8" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <circle cx="12" cy="12" r="6"></circle>
-                    <circle cx="12" cy="12" r="2"></circle>
-                  </svg>
-                </div>
-                <div className="custom-cro-badge">AD EFFICIENCY</div>
-                <h3 className="custom-cro-title">Lower Acquisition Cost</h3>
-                <p className="custom-cro-desc">
-                  Smart messaging and high-converting funnel designs that maximize your ad spend efficiency and lower your customer acquisition costs (CPA/CPL).
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
+
         <section
           id="featured-case-study"
           class="section_before_after_conversion"
