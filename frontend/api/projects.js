@@ -118,7 +118,7 @@ export const handleProjects = async (req, res) => {
       return res.status(201).json({ success: true, id: project_id, message: 'Project created successfully.' });
 
     } else if (method === 'PUT') {
-      const projectId = req.body.id || req.body.projectId;
+      const projectId = req.body.id || req.body.projectId || req.body.project_id || req.body.db_id;
       if (!projectId) {
         return res.status(400).json({ success: false, error: 'Project ID is required.' });
       }

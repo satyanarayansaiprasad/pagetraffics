@@ -125,17 +125,28 @@ const CustomerProjects = () => {
 
   const [selectedAgreement, setSelectedAgreement] = useState(null);
 
-  const handleAcceptPackage = async (proj, option) => {
+  const handleAcceptPackage = async (projOrId, option) => {
     try {
+      const projObj = (typeof projOrId === 'object' && projOrId !== null)
+        ? projOrId
+        : projects.find(p => p.id === projOrId || p.project_id === projOrId || p.db_id === projOrId) || { id: projOrId };
+
+      const targetId = projObj.id || projObj.project_id || projObj.db_id || (typeof projOrId === 'string' || typeof projOrId === 'number' ? projOrId : null);
+
+      if (!targetId) {
+        alert('Error: Unable to locate project ID. Please refresh and try again.');
+        return;
+      }
+
       const token = localStorage.getItem('token');
       const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
       // 1. Generate 14-Clause Legal Agreement using AI Generator
       const agreement = generateAILegalAgreement({
-        projectName: proj.projectName,
-        businessName: proj.businessName,
-        customerName: currentUser.displayName || 'Valued Client',
-        customerEmail: currentUser.email,
+        projectName: projObj.projectName || 'Project Scope',
+        businessName: projObj.businessName || 'Client Business',
+        customerName: currentUser?.displayName || 'Valued Client',
+        customerEmail: currentUser?.email || '',
         packageTitle: option.title,
         price: option.price,
         duration: option.duration,
@@ -143,7 +154,9 @@ const CustomerProjects = () => {
       });
 
       await axios.put('/api/projects', {
-        id: proj.id,
+        id: targetId,
+        projectId: targetId,
+        project_id: targetId,
         acceptedPackage: option,
         agreement: agreement,
         status: 'Approved'
@@ -154,9 +167,9 @@ const CustomerProjects = () => {
         emailType: 'regular_update',
         recipientEmail: 'ujwal@richasoftwaresolutions.com',
         recipientName: 'Admin',
-        projectName: proj.projectName,
+        projectName: projObj.projectName || 'Project',
         subject: `🎉 Package Accepted & Legal Agreement Executed: ${option.title} (${option.price})`,
-        message: `Customer ${currentUser.email} has accepted "${option.title}" (${option.price}). Master Service Agreement automatically generated and signed.`
+        message: `Customer ${currentUser?.email} has accepted "${option.title}" (${option.price}). Master Service Agreement automatically generated and signed.`
       });
 
       alert(`🎉 Congratulations! You have accepted "${option.title}" (${option.price}). Master Service Agreement automatically generated and executed!`);
@@ -1345,7 +1358,7 @@ const CustomerProjects = () => {
                               </div>
 
                               <button
-                                onClick={() => handleAcceptPackage(proj.id, opt)}
+                                onClick={() => handleAcceptPackage(proj, opt)}
                                 disabled={isAccepted}
                                 style={{
                                   width: '100%',
