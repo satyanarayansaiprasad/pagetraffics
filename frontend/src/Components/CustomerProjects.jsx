@@ -68,52 +68,48 @@ const CustomerProjects = () => {
     description: ''
   });
 
-  const handleCreateSupportTicket = (e) => {
+  const handleCreateSupportTicket = async (e) => {
     e.preventDefault();
     if (!ticketForm.subject.trim() || !ticketForm.description.trim()) {
       alert('Please fill out the ticket subject and description.');
       return;
     }
-    const newTkt = {
-      id: `tkt_${Date.now()}`,
-      subject: ticketForm.subject,
-      category: ticketForm.category,
-      priority: ticketForm.priority,
-      description: ticketForm.description,
-      status: 'Open',
-      createdAt: new Date().toISOString()
-    };
-    setTickets([newTkt, ...tickets]);
-    setTicketForm({ subject: '', category: 'Technical Support', priority: 'Medium', description: '' });
-    alert('Support Ticket Created! Our engineering team will respond shortly.');
+    try {
+      const token = localStorage.getItem('token');
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+      await axios.post('/api/tickets', ticketForm, { headers });
+      setTicketForm({ subject: '', category: 'Technical Support', priority: 'Medium', description: '' });
+      alert('Support Ticket Created! Our engineering team will respond shortly.');
+      fetchCustomerProjectsAndProposals();
+    } catch (err) {
+      console.error('Create ticket error:', err);
+      alert('Failed to submit support ticket.');
+    }
   };
 
   const fetchCustomerProjectsAndProposals = async () => {
     if (!currentUser) return;
     setLoading(true);
     try {
-      // 1. Fetch Customer Projects
-      const qProj = query(
-        collection(db, 'projects'),
-        where('customerUid', '==', currentUser.uid)
-      );
-      const projSnap = await getDocs(qProj);
-      const list = projSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      list.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-      setProjects(list);
+      const token = localStorage.getItem('token');
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
-      // 2. Fetch Customer AI Proposals
-      const qProp = query(
-        collection(db, 'proposals'),
-        where('recipientEmail', '==', currentUser.email)
-      );
-      const propSnap = await getDocs(qProp);
-      const propList = propSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      propList.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-      setProposals(propList);
+      // 1. Fetch Customer Projects via REST API
+      const res = await axios.get('/api/projects', { headers });
+      if (res.data && res.data.success) {
+        const list = res.data.projects || [];
+        setProjects(list);
+      }
+
+      // 2. Fetch Support Tickets via REST API
+      const tktRes = await axios.get('/api/tickets', { headers });
+      if (tktRes.data && tktRes.data.success) {
+        setTickets(tktRes.data.tickets || []);
+      }
 
     } catch (err) {
-      console.error('Error fetching customer projects/proposals:', err);
+      console.error('Error fetching customer projects:', err);
     } finally {
       setLoading(false);
     }
@@ -123,6 +119,9 @@ const CustomerProjects = () => {
 
   const handleAcceptPackage = async (proj, option) => {
     try {
+      const token = localStorage.getItem('token');
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
       // 1. Generate 14-Clause Legal Agreement using AI Generator
       const agreement = generateAILegalAgreement({
         projectName: proj.projectName,
@@ -135,13 +134,12 @@ const CustomerProjects = () => {
         features: option.features
       });
 
-      const projectRef = doc(db, 'projects', proj.id);
-      await updateDoc(projectRef, {
+      await axios.put('/api/projects', {
+        id: proj.id,
         acceptedPackage: option,
         agreement: agreement,
-        status: 'Approved',
-        updatedAt: new Date().toISOString()
-      });
+        status: 'Approved'
+      }, { headers });
 
       // Send Email to Admin via Resend API
       await axios.post('/api/send-email', {
@@ -196,11 +194,13 @@ const CustomerProjects = () => {
         status: isBothSigned ? 'Locked & Legally Executed' : 'Pending Admin Countersignature'
       };
 
-      const projectRef = doc(db, 'projects', proj.id);
-      await updateDoc(projectRef, {
-        agreement: updatedAgreement,
-        updatedAt: new Date().toISOString()
-      });
+      const token = localStorage.getItem('token');
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+      await axios.put('/api/projects', {
+        id: proj.id,
+        agreement: updatedAgreement
+      }, { headers });
 
       await axios.post('/api/send-email', {
         emailType: 'regular_update',

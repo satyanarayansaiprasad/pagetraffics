@@ -29,8 +29,10 @@ export const handleProjects = async (req, res) => {
       let rows;
       if (isAdmin && !req.query.userUid) {
         [rows] = await db.query('SELECT * FROM projects ORDER BY id DESC');
-      } else if (userUid) {
-        [rows] = await db.query('SELECT * FROM projects WHERE user_uid = ? ORDER BY id DESC', [userUid]);
+      } else if (userUid || user?.email) {
+        const uidParam = userUid || user?.uid || '';
+        const emailParam = user?.email || req.query.customerEmail || '';
+        [rows] = await db.query('SELECT * FROM projects WHERE user_uid = ? OR customerEmail = ? ORDER BY id DESC', [uidParam, emailParam]);
       } else {
         [rows] = await db.query('SELECT * FROM projects ORDER BY id DESC');
       }

@@ -201,6 +201,38 @@ const AdminDashboard = () => {
     }
   };
 
+  // Fetch Admin Data via REST API
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+      const projRes = await axios.get('/api/projects', { headers });
+      if (projRes.data && projRes.data.success) {
+        setProjects(projRes.data.projects || []);
+      }
+
+      const userRes = await axios.get('/api/users', { headers });
+      if (userRes.data && userRes.data.success) {
+        setUsers(userRes.data.users || []);
+      }
+
+      const tktRes = await axios.get('/api/tickets', { headers });
+      if (tktRes.data && tktRes.data.success) {
+        setInquiries(tktRes.data.tickets || []);
+      }
+    } catch (err) {
+      console.error('Error fetching admin data:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   // 1. Schedule Google Meet & Dispatch Email + Dashboard Notification
   const handleScheduleMeeting = async (projectId) => {
     if (!meetingForm.date || !meetingForm.time) {
@@ -209,8 +241,9 @@ const AdminDashboard = () => {
     }
     setActionMessage('');
     try {
-      const projectRef = doc(db, 'projects', projectId);
-      // Generate meeting URL ONLY after scheduling
+      const token = localStorage.getItem('token');
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
       const meetCode = `pagetraffics-${projectId.substring(0, 8)}`;
       const generatedMeetUrl = `https://meet.google.com/${meetCode}`;
 
@@ -226,7 +259,8 @@ const AdminDashboard = () => {
 
       const existingNotifs = selectedProject?.notifications || [];
 
-      await updateDoc(projectRef, {
+      await axios.put('/api/projects', {
+        id: projectId,
         status: 'Meeting Scheduled',
         meetingUrl: generatedMeetUrl,
         scheduledMeeting: {
@@ -234,11 +268,9 @@ const AdminDashboard = () => {
           time: meetingForm.time,
           notes: meetingForm.notes || 'Project Technical Briefing & Architecture Review'
         },
-        notifications: [newNotification, ...existingNotifs],
-        updatedAt: new Date().toISOString()
-      });
+        notifications: [newNotification, ...existingNotifs]
+      }, { headers });
 
-      // Send Email to Customer via Resend API
       if (selectedProject?.customerEmail) {
         await axios.post('/api/send-email', {
           emailType: 'meeting_invitation',
@@ -273,17 +305,22 @@ const AdminDashboard = () => {
       return;
     }
     try {
-      const projectRef = doc(db, 'projects', projectId);
-      await updateDoc(projectRef, {
+      const token = localStorage.getItem('token');
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+      await axios.put('/api/projects', {
+        id: projectId,
         status: 'Proposal Sent',
-        quotation: {
-          serviceTitle: quoteForm.serviceTitle,
-          amount: quoteForm.amount,
-          validDays: quoteForm.validDays,
-          createdAt: new Date().toISOString()
-        },
-        updatedAt: new Date().toISOString()
-      });
+        pricingOptions: [
+          {
+            id: 'opt_quote',
+            title: quoteForm.serviceTitle,
+            price: `$${quoteForm.amount}`,
+            duration: `${quoteForm.validDays} Days`,
+            features: ['Custom Scope Proposal']
+          }
+        ]
+      }, { headers });
       setActionMessage(`Quotation of $${quoteForm.amount} generated and attached to project.`);
       setSelectedProject(null);
       fetchData();
@@ -296,17 +333,22 @@ const AdminDashboard = () => {
   const handleRecordPayment = async (projectId) => {
     if (!paymentForm.amount) return;
     try {
-      const projectRef = doc(db, 'projects', projectId);
-      await updateDoc(projectRef, {
-        paymentRecord: {
-          amount: paymentForm.amount,
-          method: paymentForm.method,
-          transactionId: paymentForm.transactionId || `TXN_${Date.now()}`,
-          status: paymentForm.status,
-          recordedAt: new Date().toISOString()
-        },
-        updatedAt: new Date().toISOString()
-      });
+      const token = localStorage.getItem('token');
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+      const existingHistory = selectedProject?.paymentHistory || [];
+      const newPayRecord = {
+        amount: paymentForm.amount,
+        method: paymentForm.method,
+        transactionId: paymentForm.transactionId || `TXN_${Date.now()}`,
+        status: paymentForm.status,
+        recordedAt: new Date().toISOString()
+      };
+
+      await axios.put('/api/projects', {
+        id: projectId,
+        paymentHistory: [newPayRecord, ...existingHistory]
+      }, { headers });
       setActionMessage(`Payment record of $${paymentForm.amount} saved (${paymentForm.status}).`);
       setSelectedProject(null);
       fetchData();
@@ -318,14 +360,17 @@ const AdminDashboard = () => {
   // 4. Save Agreement Handler
   const handleSaveAgreement = async (projectId) => {
     try {
-      const projectRef = doc(db, 'projects', projectId);
-      await updateDoc(projectRef, {
+      const token = localStorage.getItem('token');
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+      await axios.put('/api/projects', {
+        id: projectId,
         agreement: {
           title: agreementForm.title,
           status: agreementForm.status,
           updatedAt: new Date().toISOString()
         }
-      });
+      }, { headers });
       setActionMessage(`Agreement status updated to "${agreementForm.status}".`);
       setSelectedProject(null);
       fetchData();
@@ -354,7 +399,9 @@ const AdminDashboard = () => {
 
   const handlePublish3PricingPackages = async (projectId) => {
     try {
-      const projectRef = doc(db, 'projects', projectId);
+      const token = localStorage.getItem('token');
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
       const options = [
         {
           id: 'opt_1',
@@ -380,11 +427,11 @@ const AdminDashboard = () => {
         }
       ];
 
-      await updateDoc(projectRef, {
+      await axios.put('/api/projects', {
+        id: projectId,
         status: 'Proposal Sent',
-        pricingOptions: options,
-        updatedAt: new Date().toISOString()
-      });
+        pricingOptions: options
+      }, { headers });
 
       if (selectedProject?.customerEmail) {
         await axios.post('/api/send-email', {
@@ -413,6 +460,9 @@ const AdminDashboard = () => {
 
   const handleAdminCountersignAgreement = async (projectId) => {
     try {
+      const token = localStorage.getItem('token');
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
       const proj = projects.find(p => p.id === projectId);
       if (!proj || !proj.agreement) {
         setActionMessage('No agreement found for this project.');
@@ -435,12 +485,11 @@ const AdminDashboard = () => {
         status: 'Locked & Legally Executed'
       };
 
-      const projectRef = doc(db, 'projects', projectId);
-      await updateDoc(projectRef, {
+      await axios.put('/api/projects', {
+        id: projectId,
         agreement: updatedAgreement,
-        status: 'Development Started',
-        updatedAt: new Date().toISOString()
-      });
+        status: 'Development Started'
+      }, { headers });
 
       if (proj.customerEmail) {
         await axios.post('/api/send-email', {

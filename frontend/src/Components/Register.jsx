@@ -47,8 +47,8 @@ const Register = () => {
       });
       setSuccess(true);
       setTimeout(() => {
-        navigate('/verify-email');
-      }, 2000);
+        navigate('/customer/dashboard');
+      }, 1000);
     } catch (err) {
       console.error('Registration error:', err);
       if (err.code === 'auth/email-already-in-use') {
