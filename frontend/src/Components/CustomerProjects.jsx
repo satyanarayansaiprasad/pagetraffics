@@ -528,50 +528,147 @@ const CustomerProjects = () => {
   };
 
   return (
-    <div style={{
+    <div className="customer-dashboard-container" style={{
       minHeight: '100vh',
-      background: 'radial-gradient(circle at 10% 20%, rgba(25, 60, 184, 0.04) 0%, rgba(255, 105, 0, 0.04) 90%)',
-      padding: '4rem 2rem',
+      background: 'radial-gradient(circle at 10% 20%, rgba(25, 60, 184, 0.03) 0%, rgba(255, 105, 0, 0.03) 90%)',
       color: '#0f172a',
-      fontFamily: "'Inter', sans-serif"
+      fontFamily: "'Inter', sans-serif",
+      display: 'flex',
+      flexDirection: 'row'
     }}>
-      <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-        {/* Header */}
+      {/* LEFT SIDEBAR NAVIGATION */}
+      <aside className="customer-sidebar" style={{
+        width: '280px',
+        minWidth: '280px',
+        background: '#ffffff',
+        borderRight: '1px solid rgba(25, 60, 184, 0.12)',
+        display: 'flex',
+        flexDirection: 'column',
+        boxShadow: '4px 0 20px rgba(25, 60, 184, 0.04)',
+        zIndex: 10
+      }}>
+        {/* User Badge Profile Header */}
+        <div style={{ padding: '1.8rem 1.4rem', borderBottom: '1px solid #f1f5f9' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '0.8rem' }}>
+            <div style={{
+              width: '46px',
+              height: '46px',
+              borderRadius: '50%',
+              background: 'linear-gradient(135deg, #193CB8 0%, #FF6900 100%)',
+              color: '#ffffff',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontWeight: '800',
+              fontSize: '1.2rem',
+              boxShadow: '0 4px 12px rgba(25, 60, 184, 0.25)'
+            }}>
+              {(currentUser?.displayName || currentUser?.email || 'C')[0].toUpperCase()}
+            </div>
+            <div style={{ overflow: 'hidden' }}>
+              <h4 style={{ margin: 0, fontSize: '1.05rem', fontWeight: '800', color: '#193CB8', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+                {currentUser?.displayName || 'Valued Customer'}
+              </h4>
+              <p style={{ margin: 0, fontSize: '0.8rem', color: '#64748b', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+                {currentUser?.email}
+              </p>
+            </div>
+          </div>
+          <span style={{
+            display: 'inline-block',
+            padding: '4px 12px',
+            borderRadius: '50px',
+            background: 'rgba(255, 105, 0, 0.08)',
+            color: '#FF6900',
+            fontSize: '0.75rem',
+            fontWeight: '800',
+            letterSpacing: '0.5px',
+            textTransform: 'uppercase'
+          }}>Customer Workspace</span>
+        </div>
+
+        {/* Sidebar Nav Items */}
+        <nav style={{ flex: 1, padding: '1rem 0', overflowY: 'auto' }}>
+          <SidebarNavItem icon={<FaFolder />} label="My Projects" active={activeTab === 'projects'} onClick={() => setActiveTab('projects')} badge={projects.length} />
+          <SidebarNavItem icon={<FaCalculator />} label="Quotations & Pricing" active={activeTab === 'quotations'} onClick={() => setActiveTab('quotations')} />
+          <SidebarNavItem icon={<FaVideo />} label="Meeting Schedule" active={activeTab === 'meetings'} onClick={() => setActiveTab('meetings')} />
+          <SidebarNavItem icon={<FaFileContract />} label="Legal Agreement" active={activeTab === 'agreement'} onClick={() => setActiveTab('agreement')} />
+          <SidebarNavItem icon={<FaCreditCard />} label="Payments & Billing" active={activeTab === 'payments'} onClick={() => setActiveTab('payments')} />
+          <SidebarNavItem icon={<FaFolderOpen />} label="Uploaded Files" active={activeTab === 'files'} onClick={() => setActiveTab('files')} />
+          <SidebarNavItem icon={<FaBell />} label="Notifications" active={activeTab === 'notifications'} onClick={() => setActiveTab('notifications')} />
+          <SidebarNavItem icon={<FaLifeRing />} label="Support Tickets" active={activeTab === 'tickets'} onClick={() => setActiveTab('tickets')} badge={tickets.length} />
+          <SidebarNavItem icon={<FaEnvelope />} label="Email History" active={activeTab === 'emails'} onClick={() => setActiveTab('emails')} />
+          <SidebarNavItem icon={<FaCloudDownloadAlt />} label="Download Center" active={activeTab === 'downloads'} onClick={() => setActiveTab('downloads')} />
+          <SidebarNavItem icon={<FaUser />} label="My Profile" active={activeTab === 'profile'} onClick={() => setActiveTab('profile')} />
+        </nav>
+
+        {/* Bottom Sidebar Action Button */}
+        <div style={{ padding: '1.2rem', borderTop: '1px solid #f1f5f9' }}>
+          <button
+            onClick={() => navigate('/create-project')}
+            style={{
+              width: '100%',
+              padding: '12px 16px',
+              background: '#FF6900',
+              color: '#ffffff',
+              border: 'none',
+              borderRadius: '12px',
+              fontWeight: '700',
+              fontSize: '0.9rem',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              boxShadow: '0 8px 20px -4px rgba(255, 105, 0, 0.4)'
+            }}
+          >
+            <FaPlus /> New Project Profile
+          </button>
+        </div>
+      </aside>
+
+      {/* RIGHT MAIN SCREEN CONTENT */}
+      <main className="customer-main-content" style={{ flex: 1, padding: '2.5rem 2.5rem', overflowY: 'auto', maxWidth: '1200px' }}>
+        {/* Top Header Bar */}
         <div style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
           flexWrap: 'wrap',
           gap: '1rem',
-          marginBottom: '2.5rem'
+          marginBottom: '2rem'
         }}>
           <div>
-            <span style={{
-              display: 'inline-block',
-              padding: '6px 14px',
-              borderRadius: '50px',
-              background: 'rgba(255, 105, 0, 0.08)',
-              color: '#FF6900',
-              fontSize: '0.85rem',
-              fontWeight: '700',
-              textTransform: 'uppercase',
-              marginBottom: '0.5rem'
-            }}>Customer Hub</span>
-            <h1 style={{ fontSize: '2.4rem', fontWeight: '800', color: '#193CB8', margin: 0 }}>
-              Your Project Profiles & AI Proposals
+            <h1 style={{ fontSize: '2rem', fontWeight: '800', color: '#193CB8', margin: 0 }}>
+              {activeTab === 'projects' && 'My Project Profiles & Roadmap'}
+              {activeTab === 'quotations' && 'Custom Quotations & Pricing Packages'}
+              {activeTab === 'meetings' && 'Consultation & Meeting Schedule'}
+              {activeTab === 'agreement' && 'Master Service Agreement & Digital Signature'}
+              {activeTab === 'payments' && 'Payments, Invoices & Transaction History'}
+              {activeTab === 'files' && 'Uploaded Project Files & Media'}
+              {activeTab === 'notifications' && 'System Notifications & Updates'}
+              {activeTab === 'tickets' && 'Support Tickets & Helpdesk'}
+              {activeTab === 'emails' && 'Sent Email Correspondence'}
+              {activeTab === 'downloads' && 'Project Assets & Download Center'}
+              {activeTab === 'profile' && 'Customer Profile & Settings'}
             </h1>
+            <p style={{ margin: '0.3rem 0 0 0', color: '#64748b', fontSize: '0.92rem' }}>
+              Manage your digital projects, deliverables, and service plans in one place.
+            </p>
           </div>
 
           <div style={{ display: 'flex', gap: '12px' }}>
             <button
               onClick={fetchCustomerProjectsAndProposals}
               style={{
-                padding: '12px 20px',
+                padding: '10px 18px',
                 background: '#ffffff',
                 border: '1px solid rgba(25, 60, 184, 0.2)',
                 color: '#193CB8',
-                borderRadius: '12px',
+                borderRadius: '10px',
                 fontWeight: '700',
+                fontSize: '0.9rem',
                 cursor: 'pointer',
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -580,48 +677,7 @@ const CustomerProjects = () => {
             >
               <FaSync /> Refresh
             </button>
-
-            <button
-              onClick={() => navigate('/create-project')}
-              style={{
-                padding: '12px 24px',
-                background: '#FF6900',
-                color: '#ffffff',
-                border: 'none',
-                borderRadius: '12px',
-                fontWeight: '700',
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                boxShadow: '0 10px 25px -5px rgba(255, 105, 0, 0.35)'
-              }}
-            >
-              <FaPlus /> Create New Project Profile
-            </button>
           </div>
-        </div>
-
-        {/* 11-Tab Customer Command Center Navigation Bar */}
-        <div style={{
-          display: 'flex',
-          gap: '8px',
-          overflowX: 'auto',
-          paddingBottom: '1rem',
-          marginBottom: '2rem',
-          borderBottom: '2px solid rgba(25, 60, 184, 0.1)'
-        }}>
-          <TabNavBtn icon={<FaUser />} label="Profile" active={activeTab === 'profile'} onClick={() => setActiveTab('profile')} />
-          <TabNavBtn icon={<FaFolder />} label="Projects" active={activeTab === 'projects'} onClick={() => setActiveTab('projects')} />
-          <TabNavBtn icon={<FaFolderOpen />} label="Uploaded Files" active={activeTab === 'files'} onClick={() => setActiveTab('files')} />
-          <TabNavBtn icon={<FaCalculator />} label="Quotations" active={activeTab === 'quotations'} onClick={() => setActiveTab('quotations')} />
-          <TabNavBtn icon={<FaVideo />} label="Meeting Schedule" active={activeTab === 'meetings'} onClick={() => setActiveTab('meetings')} />
-          <TabNavBtn icon={<FaCreditCard />} label="Payments" active={activeTab === 'payments'} onClick={() => setActiveTab('payments')} />
-          <TabNavBtn icon={<FaFileContract />} label="Agreement" active={activeTab === 'agreement'} onClick={() => setActiveTab('agreement')} />
-          <TabNavBtn icon={<FaBell />} label="Notifications" active={activeTab === 'notifications'} onClick={() => setActiveTab('notifications')} />
-          <TabNavBtn icon={<FaEnvelope />} label="Email History" active={activeTab === 'emails'} onClick={() => setActiveTab('emails')} />
-          <TabNavBtn icon={<FaLifeRing />} label="Support Tickets" active={activeTab === 'tickets'} onClick={() => setActiveTab('tickets')} />
-          <TabNavBtn icon={<FaCloudDownloadAlt />} label="Download Center" active={activeTab === 'downloads'} onClick={() => setActiveTab('downloads')} />
         </div>
 
         {/* TAB 1: Profile */}
@@ -1729,7 +1785,7 @@ const CustomerProjects = () => {
             </motion.div>
           </div>
         )}
-      </div>
+      </main>
     </div>
   );
 };
@@ -1741,6 +1797,48 @@ const ClauseBox = ({ num, title, content }) => (
     </h4>
     <div style={{ whiteSpace: 'pre-wrap', color: '#475569' }}>{content}</div>
   </div>
+);
+
+const SidebarNavItem = ({ icon, label, active, onClick, badge }) => (
+  <button
+    onClick={onClick}
+    style={{
+      width: '100%',
+      padding: '12px 20px',
+      background: active ? 'rgba(25, 60, 184, 0.08)' : 'transparent',
+      color: active ? '#193CB8' : '#475569',
+      border: 'none',
+      borderLeft: active ? '4px solid #193CB8' : '4px solid transparent',
+      borderRadius: '0 12px 12px 0',
+      fontWeight: active ? '700' : '600',
+      fontSize: '0.92rem',
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: '12px',
+      transition: 'all 0.2s ease',
+      marginBottom: '4px',
+      textAlign: 'left'
+    }}
+  >
+    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+      <span style={{ fontSize: '1.1rem', color: active ? '#193CB8' : '#64748b' }}>{icon}</span>
+      <span>{label}</span>
+    </div>
+    {badge !== undefined && badge !== null && (
+      <span style={{
+        background: active ? '#193CB8' : '#e2e8f0',
+        color: active ? '#ffffff' : '#475569',
+        fontSize: '0.75rem',
+        fontWeight: '800',
+        padding: '2px 8px',
+        borderRadius: '50px'
+      }}>
+        {badge}
+      </span>
+    )}
+  </button>
 );
 
 const TabNavBtn = ({ icon, label, active, onClick }) => (
