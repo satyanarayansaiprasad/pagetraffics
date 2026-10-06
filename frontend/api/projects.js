@@ -143,7 +143,7 @@ export const handleProjects = async (req, res) => {
 
       await db.query(
         `UPDATE projects SET ${updates.join(', ')} WHERE project_id = ? OR id = ?`,
-        [...values, projectId]
+        [...values, projectId, projectId]
       );
 
       return res.status(200).json({ success: true, message: 'Project updated successfully.' });
