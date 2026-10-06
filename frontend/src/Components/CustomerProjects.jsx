@@ -96,7 +96,13 @@ const CustomerProjects = () => {
       const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
       // 1. Fetch Customer Projects via REST API
-      const res = await axios.get('/api/projects', { headers });
+      const res = await axios.get('/api/projects', {
+        headers,
+        params: {
+          userUid: currentUser?.uid,
+          customerEmail: currentUser?.email
+        }
+      });
       if (res.data && res.data.success) {
         const list = res.data.projects || [];
         setProjects(list);

@@ -17,6 +17,16 @@ const getAuthUser = (req) => {
   return null;
 };
 
+const safeJsonParse = (val, fallback = null) => {
+  if (!val) return fallback;
+  if (typeof val === 'object') return val;
+  try {
+    return JSON.parse(val);
+  } catch (e) {
+    return fallback;
+  }
+};
+
 export const handleProjects = async (req, res) => {
   const method = req.method;
   const user = getAuthUser(req);
@@ -29,10 +39,13 @@ export const handleProjects = async (req, res) => {
       let rows;
       if (isAdmin && !req.query.userUid) {
         [rows] = await db.query('SELECT * FROM projects ORDER BY id DESC');
-      } else if (userUid || user?.email) {
+      } else if (userUid || user?.email || req.query.customerEmail) {
         const uidParam = userUid || user?.uid || '';
-        const emailParam = user?.email || req.query.customerEmail || '';
-        [rows] = await db.query('SELECT * FROM projects WHERE user_uid = ? OR customerEmail = ? ORDER BY id DESC', [uidParam, emailParam]);
+        const emailParam = (req.query.customerEmail || user?.email || '').toLowerCase().trim();
+        [rows] = await db.query(
+          'SELECT * FROM projects WHERE user_uid = ? OR LOWER(TRIM(customerEmail)) = ? OR (? = "" AND ? = "") ORDER BY id DESC',
+          [uidParam, emailParam, uidParam, emailParam]
+        );
       } else {
         [rows] = await db.query('SELECT * FROM projects ORDER BY id DESC');
       }
@@ -51,13 +64,13 @@ export const handleProjects = async (req, res) => {
         deadline: r.deadline,
         status: r.status,
         meetingUrl: r.meetingUrl,
-        scheduledMeeting: typeof r.scheduledMeeting === 'string' ? JSON.parse(r.scheduledMeeting || 'null') : r.scheduledMeeting,
-        acceptedPackage: typeof r.acceptedPackage === 'string' ? JSON.parse(r.acceptedPackage || 'null') : r.acceptedPackage,
-        pricingOptions: typeof r.pricingOptions === 'string' ? JSON.parse(r.pricingOptions || 'null') : r.pricingOptions,
-        agreement: typeof r.agreement === 'string' ? JSON.parse(r.agreement || 'null') : r.agreement,
-        documents: typeof r.documents === 'string' ? JSON.parse(r.documents || 'null') : r.documents,
-        notifications: typeof r.notifications === 'string' ? JSON.parse(r.notifications || 'null') : r.notifications,
-        paymentHistory: typeof r.paymentHistory === 'string' ? JSON.parse(r.paymentHistory || 'null') : r.paymentHistory,
+        scheduledMeeting: safeJsonParse(r.scheduledMeeting),
+        acceptedPackage: safeJsonParse(r.acceptedPackage),
+        pricingOptions: safeJsonParse(r.pricingOptions),
+        agreement: safeJsonParse(r.agreement),
+        documents: safeJsonParse(r.documents, []),
+        notifications: safeJsonParse(r.notifications, []),
+        paymentHistory: safeJsonParse(r.paymentHistory, []),
         createdAt: r.createdAt
       }));
 
