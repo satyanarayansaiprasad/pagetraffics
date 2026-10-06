@@ -675,32 +675,38 @@ body {
   }
 }
 
-/* Sidebar Customer Dashboard Layout Responsiveness */
+/* Sidebar Customer & Admin Dashboard Layout Responsiveness */
 @media (max-width: 900px) {
-  .customer-dashboard-container {
+  .customer-dashboard-container,
+  .admin-dashboard-container {
     flex-direction: column !important;
   }
 
-  .customer-sidebar {
+  .customer-sidebar,
+  .admin-sidebar {
     width: 100% !important;
     min-width: 100% !important;
     border-right: none !important;
     border-bottom: 1px solid rgba(25, 60, 184, 0.12) !important;
   }
 
-  .customer-sidebar nav {
+  .customer-sidebar nav,
+  .admin-sidebar nav {
     display: flex !important;
     flex-wrap: wrap !important;
     padding: 0.5rem 0.8rem !important;
   }
 
-  .customer-sidebar button {
+  .customer-sidebar button,
+  .admin-sidebar button {
     width: auto !important;
     border-left: none !important;
     border-radius: 10px !important;
   }
 
-  .customer-main-content {
+  .customer-main-content,
+  .admin-main-content {
     padding: 1.5rem 1rem !important;
+    max-width: 100% !important;
   }
 }

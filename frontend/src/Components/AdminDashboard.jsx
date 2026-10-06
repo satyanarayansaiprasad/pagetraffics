@@ -517,15 +517,130 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div style={{
+    <div className="admin-dashboard-container" style={{
       minHeight: '100vh',
-      background: 'radial-gradient(circle at 10% 20%, rgba(25, 60, 184, 0.04) 0%, rgba(255, 105, 0, 0.04) 90%)',
-      padding: '3rem 1.5rem',
+      background: 'radial-gradient(circle at 10% 20%, rgba(25, 60, 184, 0.03) 0%, rgba(255, 105, 0, 0.03) 90%)',
       color: '#0f172a',
-      fontFamily: "'Inter', sans-serif"
+      fontFamily: "'Inter', sans-serif",
+      display: 'flex',
+      flexDirection: 'row'
     }}>
-      <div style={{ maxWidth: '1350px', margin: '0 auto' }}>
-        {/* Top Header */}
+      {/* LEFT SIDEBAR NAVIGATION */}
+      <aside className="admin-sidebar" style={{
+        width: '280px',
+        minWidth: '280px',
+        background: '#ffffff',
+        borderRight: '1px solid rgba(25, 60, 184, 0.12)',
+        display: 'flex',
+        flexDirection: 'column',
+        boxShadow: '4px 0 20px rgba(25, 60, 184, 0.04)',
+        zIndex: 10
+      }}>
+        {/* User Badge Profile Header */}
+        <div style={{ padding: '1.8rem 1.4rem', borderBottom: '1px solid #f1f5f9' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '0.8rem' }}>
+            <div style={{
+              width: '46px',
+              height: '46px',
+              borderRadius: '50%',
+              background: 'linear-gradient(135deg, #193CB8 0%, #FF6900 100%)',
+              color: '#ffffff',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontWeight: '800',
+              fontSize: '1.2rem',
+              boxShadow: '0 4px 12px rgba(25, 60, 184, 0.25)'
+            }}>
+              {(currentUser?.displayName || currentUser?.email || 'A')[0].toUpperCase()}
+            </div>
+            <div style={{ overflow: 'hidden' }}>
+              <h4 style={{ margin: 0, fontSize: '1.05rem', fontWeight: '800', color: '#193CB8', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+                {currentUser?.displayName || 'Admin Console'}
+              </h4>
+              <p style={{ margin: 0, fontSize: '0.8rem', color: '#64748b', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+                {currentUser?.email || 'admin@pagetraffics.com'}
+              </p>
+            </div>
+          </div>
+          <span style={{
+            display: 'inline-block',
+            padding: '4px 12px',
+            borderRadius: '50px',
+            background: 'rgba(25, 60, 184, 0.1)',
+            color: '#193CB8',
+            fontSize: '0.75rem',
+            fontWeight: '800',
+            letterSpacing: '0.5px',
+            textTransform: 'uppercase'
+          }}>
+            <FaUserShield /> Executive Admin Suite
+          </span>
+        </div>
+
+        {/* Sidebar Nav Items */}
+        <nav style={{ flex: 1, padding: '1rem 0', overflowY: 'auto' }}>
+          <SidebarNavItem icon={<FaFolderOpen />} label="Project Management" active={activeTab === 'projects'} onClick={() => setActiveTab('projects')} badge={projects.length} />
+          <SidebarNavItem icon={<FaUsers />} label="Customer Management" active={activeTab === 'users'} onClick={() => setActiveTab('users')} badge={users.filter(u => u.role !== 'admin').length} />
+          <SidebarNavItem icon={<FaServer />} label="Analytics Command" active={activeTab === 'analytics'} onClick={() => setActiveTab('analytics')} />
+          <SidebarNavItem icon={<FaCreditCard />} label="Payment Tracking" active={activeTab === 'finance'} onClick={() => setActiveTab('finance')} />
+          <SidebarNavItem icon={<FaVideo />} label="Meeting Management" active={activeTab === 'meetings'} onClick={() => setActiveTab('meetings')} badge={projects.filter(p => p.meetingUrl || p.scheduledMeeting).length} />
+          <SidebarNavItem icon={<FaFileContract />} label="Agreement Management" active={activeTab === 'agreement'} onClick={() => setActiveTab('agreement')} badge={projects.filter(p => p.agreement).length} />
+          <SidebarNavItem icon={<FaPaperPlane />} label="Email Composer & Logs" active={activeTab === 'email_logs'} onClick={() => setActiveTab('email_logs')} />
+          <SidebarNavItem icon={<FaRobot />} label="AI Proposal Generator" active={activeTab === 'ai_proposal'} onClick={() => setActiveTab('ai_proposal')} />
+          <SidebarNavItem icon={<FaMagic />} label="AI Agreement Generator" active={activeTab === 'ai_agreement'} onClick={() => setActiveTab('ai_agreement')} />
+          <SidebarNavItem icon={<FaEnvelopeOpenText />} label="Notifications" active={activeTab === 'notifications'} onClick={() => setActiveTab('notifications')} />
+          <SidebarNavItem icon={<FaSync />} label="System Activity Logs" active={activeTab === 'activity_logs'} onClick={() => setActiveTab('activity_logs')} />
+        </nav>
+
+        {/* Bottom Sidebar Action Buttons */}
+        <div style={{ padding: '1.2rem', borderTop: '1px solid #f1f5f9', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <button
+            onClick={() => navigate('/')}
+            style={{
+              width: '100%',
+              padding: '10px 14px',
+              background: '#f1f5f9',
+              color: '#475569',
+              border: '1px solid #cbd5e1',
+              borderRadius: '10px',
+              fontWeight: '700',
+              fontSize: '0.85rem',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '6px'
+            }}
+          >
+            🏠 Back to Website
+          </button>
+          <button
+            onClick={handleLogout}
+            style={{
+              width: '100%',
+              padding: '10px 14px',
+              background: '#fee2e2',
+              color: '#991b1b',
+              border: '1px solid #fca5a5',
+              borderRadius: '10px',
+              fontWeight: '700',
+              fontSize: '0.85rem',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '6px'
+            }}
+          >
+            <FaSignOutAlt /> Log Out
+          </button>
+        </div>
+      </aside>
+
+      {/* RIGHT MAIN CONTENT AREA */}
+      <main className="admin-main-content" style={{ flex: 1, padding: '2rem 2.5rem', overflowY: 'auto' }}>
+        {/* Top Header inside main content */}
         <div style={{
           display: 'flex',
           justifyContent: 'space-between',
@@ -535,22 +650,12 @@ const AdminDashboard = () => {
           marginBottom: '2rem'
         }}>
           <div>
-            <span style={{
-              display: 'inline-block',
-              padding: '6px 14px',
-              borderRadius: '50px',
-              background: 'rgba(25, 60, 184, 0.1)',
-              color: '#193CB8',
-              fontSize: '0.85rem',
-              fontWeight: '700',
-              textTransform: 'uppercase',
-              marginBottom: '0.4rem'
-            }}>
-              <FaUserShield /> Executive Admin Suite
-            </span>
-            <h1 style={{ fontSize: '2.4rem', fontWeight: '800', color: '#193CB8', margin: 0 }}>
+            <h1 style={{ fontSize: '2.2rem', fontWeight: '800', color: '#193CB8', margin: 0 }}>
               Master Management Portal
             </h1>
+            <p style={{ margin: '4px 0 0 0', color: '#64748b', fontSize: '0.9rem' }}>
+              Logged in as Admin &bull; Session active since {sessionTime}
+            </p>
           </div>
 
           <div style={{ display: 'flex', gap: '12px' }}>
@@ -569,24 +674,7 @@ const AdminDashboard = () => {
                 gap: '8px'
               }}
             >
-              <FaSync /> Refresh
-            </button>
-            <button
-              onClick={handleLogout}
-              style={{
-                padding: '10px 18px',
-                background: '#fee2e2',
-                border: '1px solid #fca5a5',
-                color: '#991b1b',
-                borderRadius: '10px',
-                fontWeight: '700',
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px'
-              }}
-            >
-              <FaSignOutAlt /> Log Out
+              <FaSync /> Refresh Data
             </button>
           </div>
         </div>
@@ -616,53 +704,6 @@ const AdminDashboard = () => {
           <MetricCard title="Registered Customers" value={users.filter(u => u.role !== 'admin').length} icon={<FaUsers style={{ color: '#193CB8' }} />} />
           <MetricCard title="Pending Review" value={projects.filter(p => p.status === 'Submitted' || p.status === 'Under Review').length} icon={<FaFolderOpen style={{ color: '#FF6900' }} />} />
           <MetricCard title="Approved & Active" value={projects.filter(p => p.status === 'Approved' || p.status === 'Development Started').length} icon={<FaCheck style={{ color: '#10b981' }} />} />
-        </div>
-
-        {/* 11-Tab Admin Operations Suite Navigation Bar */}
-        <div style={{
-          display: 'flex',
-          gap: '8px',
-          background: '#ffffff',
-          padding: '8px',
-          borderRadius: '16px',
-          border: '1px solid rgba(25, 60, 184, 0.12)',
-          marginBottom: '2rem',
-          overflowX: 'auto',
-          boxShadow: '0 4px 12px rgba(25, 60, 184, 0.04)'
-        }}>
-          <TabButton active={activeTab === 'analytics'} onClick={() => setActiveTab('analytics')}>
-            <FaServer /> Analytics
-          </TabButton>
-          <TabButton active={activeTab === 'users'} onClick={() => setActiveTab('users')}>
-            <FaUsers /> Customer Management
-          </TabButton>
-          <TabButton active={activeTab === 'projects'} onClick={() => setActiveTab('projects')}>
-            <FaFolderOpen /> Project Management
-          </TabButton>
-          <TabButton active={activeTab === 'finance'} onClick={() => setActiveTab('finance')}>
-            <FaCreditCard /> Payment Tracking
-          </TabButton>
-          <TabButton active={activeTab === 'meetings'} onClick={() => setActiveTab('meetings')}>
-            <FaVideo /> Meeting Management
-          </TabButton>
-          <TabButton active={activeTab === 'agreement'} onClick={() => setActiveTab('agreement')}>
-            <FaFileContract /> Agreement Management
-          </TabButton>
-          <TabButton active={activeTab === 'email_logs'} onClick={() => setActiveTab('email_logs')}>
-            <FaPaperPlane /> Email Logs
-          </TabButton>
-          <TabButton active={activeTab === 'ai_proposal'} onClick={() => setActiveTab('ai_proposal')}>
-            <FaRobot /> AI Proposal Generator
-          </TabButton>
-          <TabButton active={activeTab === 'ai_agreement'} onClick={() => setActiveTab('ai_agreement')}>
-            <FaMagic /> AI Agreement Generator
-          </TabButton>
-          <TabButton active={activeTab === 'notifications'} onClick={() => setActiveTab('notifications')}>
-            <FaEnvelopeOpenText /> Notifications
-          </TabButton>
-          <TabButton active={activeTab === 'activity_logs'} onClick={() => setActiveTab('activity_logs')}>
-            <FaSync /> Activity Logs
-          </TabButton>
         </div>
 
         {/* Tab 1: Analytics */}
@@ -1909,7 +1950,7 @@ const AdminDashboard = () => {
             </motion.div>
           </div>
         )}
-      </div>
+      </main>
     </div>
   );
 };
@@ -1974,6 +2015,48 @@ const labelStyle = {
   color: '#475569',
   marginBottom: '4px'
 };
+
+const SidebarNavItem = ({ icon, label, active, onClick, badge }) => (
+  <button
+    onClick={onClick}
+    style={{
+      width: '100%',
+      padding: '12px 18px',
+      background: active ? 'rgba(25, 60, 184, 0.08)' : 'transparent',
+      color: active ? '#193CB8' : '#475569',
+      border: 'none',
+      borderLeft: active ? '4px solid #193CB8' : '4px solid transparent',
+      borderRadius: '0 12px 12px 0',
+      fontWeight: active ? '700' : '600',
+      fontSize: '0.9rem',
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: '10px',
+      transition: 'all 0.2s ease',
+      marginBottom: '3px',
+      textAlign: 'left'
+    }}
+  >
+    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', overflow: 'hidden' }}>
+      <span style={{ fontSize: '1.05rem', color: active ? '#193CB8' : '#64748b' }}>{icon}</span>
+      <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{label}</span>
+    </div>
+    {badge !== undefined && badge !== null && badge > 0 && (
+      <span style={{
+        background: active ? '#193CB8' : '#e2e8f0',
+        color: active ? '#ffffff' : '#475569',
+        fontSize: '0.72rem',
+        fontWeight: '800',
+        padding: '2px 8px',
+        borderRadius: '50px'
+      }}>
+        {badge}
+      </span>
+    )}
+  </button>
+);
 
 const inputStyle = {
   width: '100%',
