@@ -1,5 +1,6 @@
 import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
+import bcrypt from 'bcryptjs';
 
 dotenv.config();
 
@@ -29,7 +30,7 @@ const memoryDb = {
   inquiries: []
 };
 
-// Initialize MySQL Tables
+// Initialize MySQL Tables & Default Admin Accounts
 export const initDbTables = async () => {
   try {
     const connection = await pool.getConnection();
@@ -108,6 +109,31 @@ export const initDbTables = async () => {
         createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     `);
+
+    // 5. Seed Default Admin Accounts if not exist
+    const [adminRows] = await connection.query("SELECT * FROM users WHERE email = 'admin@pagetraffics.com'");
+    if (!adminRows || adminRows.length === 0) {
+      const adminUid = 'usr_admin_master_' + Date.now();
+      const adminPassHash = await bcrypt.hash('Admin@123456', 10);
+      await connection.query(
+        `INSERT INTO users (uid, email, password_hash, displayName, phone, role) 
+         VALUES (?, ?, ?, ?, ?, ?)`,
+        [adminUid, 'admin@pagetraffics.com', adminPassHash, 'PageTraffics Operations Admin', '+1 (555) 000-1111', 'admin']
+      );
+      console.log('🔑 Default Admin Account Created: admin@pagetraffics.com');
+    }
+
+    const [richaAdmin] = await connection.query("SELECT * FROM users WHERE email = 'ujwal@richasoftwaresolutions.com'");
+    if (!richaAdmin || richaAdmin.length === 0) {
+      const richaUid = 'usr_admin_ujwal_' + Date.now();
+      const richaPassHash = await bcrypt.hash('Admin@123456', 10);
+      await connection.query(
+        `INSERT INTO users (uid, email, password_hash, displayName, phone, role) 
+         VALUES (?, ?, ?, ?, ?, ?)`,
+        [richaUid, 'ujwal@richasoftwaresolutions.com', richaPassHash, 'Ujwal (Master Admin)', '+1 (555) 000-2222', 'admin']
+      );
+      console.log('🔑 Master Admin Account Created: ujwal@richasoftwaresolutions.com');
+    }
 
     connection.release();
     console.log('✅ MySQL Database connected & tables initialized successfully.');
