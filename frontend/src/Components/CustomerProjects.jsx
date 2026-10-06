@@ -24,7 +24,9 @@ import {
   FaEnvelope,
   FaLifeRing,
   FaCloudDownloadAlt,
-  FaShieldAlt
+  FaShieldAlt,
+  FaHome,
+  FaSignOutAlt
 } from 'react-icons/fa';
 import { collection, query, where, getDocs, orderBy, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase/config';
@@ -43,7 +45,7 @@ const STATUS_STAGES = [
 
 const CustomerProjects = () => {
   const navigate = useNavigate();
-  const { currentUser } = useAuth();
+  const { currentUser, logout } = useAuth();
   const [projects, setProjects] = useState([]);
   const [proposals, setProposals] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -602,8 +604,8 @@ const CustomerProjects = () => {
           <SidebarNavItem icon={<FaUser />} label="My Profile" active={activeTab === 'profile'} onClick={() => setActiveTab('profile')} />
         </nav>
 
-        {/* Bottom Sidebar Action Button */}
-        <div style={{ padding: '1.2rem', borderTop: '1px solid #f1f5f9' }}>
+        {/* Bottom Sidebar Action Buttons */}
+        <div style={{ padding: '1.2rem', borderTop: '1px solid #f1f5f9', display: 'flex', flexDirection: 'column', gap: '8px' }}>
           <button
             onClick={() => navigate('/create-project')}
             style={{
@@ -625,6 +627,53 @@ const CustomerProjects = () => {
           >
             <FaPlus /> New Project Profile
           </button>
+
+          <div style={{ display: 'flex', gap: '8px', marginTop: '4px' }}>
+            <button
+              onClick={() => navigate('/')}
+              style={{
+                flex: 1,
+                padding: '9px 10px',
+                background: '#f1f5f9',
+                color: '#475569',
+                border: '1px solid #cbd5e1',
+                borderRadius: '10px',
+                fontWeight: '700',
+                fontSize: '0.8rem',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '6px'
+              }}
+            >
+              <FaHome /> Home
+            </button>
+
+            <button
+              onClick={async () => {
+                await logout();
+                navigate('/login');
+              }}
+              style={{
+                flex: 1,
+                padding: '9px 10px',
+                background: '#fee2e2',
+                color: '#dc2626',
+                border: '1px solid #fca5a5',
+                borderRadius: '10px',
+                fontWeight: '700',
+                fontSize: '0.8rem',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '6px'
+              }}
+            >
+              <FaSignOutAlt /> Log Out
+            </button>
+          </div>
         </div>
       </aside>
 

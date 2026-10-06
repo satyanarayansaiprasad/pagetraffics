@@ -20,75 +20,92 @@ import AdminDashboard from './Components/AdminDashboard';
 import { ProtectedRoute, AdminRoute } from './Components/ProtectedRoute';
 import { AuthProvider } from './contexts/AuthContext';
 
+const AppContent = () => {
+  const location = useLocation();
+  const isDashboardRoute = [
+    '/customer/dashboard',
+    '/projects',
+    '/admin/dashboard',
+    '/create-project',
+    '/profile'
+  ].some(path => location.pathname.startsWith(path));
+
+  return (
+    <>
+      {!isDashboardRoute && <Navbar />}
+      <Routes>
+        {/* Homepage */}
+        <Route path="/" element={<Home />} />
+
+        {/* Public Subpages */}
+        <Route path="/about" element={<About />} />
+        <Route path="/services" element={<Service />} />
+        <Route path="/case-studies" element={<CaseStudies />} />
+        <Route path="/faqs" element={<FAQs />} />
+        <Route path="/contact" element={<ContactForm />} />
+
+        {/* Customer Auth & Profile Routes */}
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <CustomerProfile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/create-project"
+          element={
+            <ProtectedRoute>
+              <CreateProject />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/projects"
+          element={
+            <ProtectedRoute>
+              <CustomerProjects />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/customer/dashboard"
+          element={
+            <ProtectedRoute>
+              <CustomerProjects />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Admin Routes */}
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <AdminRoute>
+              <AdminDashboard />
+            </AdminRoute>
+          }
+        />
+
+        {/* Fallback to Home */}
+        <Route path="*" element={<Home />} />
+      </Routes>
+      {!isDashboardRoute && <Footer />}
+    </>
+  );
+};
+
 const App = () => {
   return (
     <AuthProvider>
       <Router>
-        <Navbar />
-        <Routes>
-          {/* Homepage */}
-          <Route path="/" element={<Home />} />
-
-          {/* Public Subpages */}
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<Service />} />
-          <Route path="/case-studies" element={<CaseStudies />} />
-          <Route path="/faqs" element={<FAQs />} />
-          <Route path="/contact" element={<ContactForm />} />
-
-          {/* Customer Auth & Profile Routes */}
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/verify-email" element={<VerifyEmail />} />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <CustomerProfile />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/create-project"
-            element={
-              <ProtectedRoute>
-                <CreateProject />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/projects"
-            element={
-              <ProtectedRoute>
-                <CustomerProjects />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/customer/dashboard"
-            element={
-              <ProtectedRoute>
-                <CustomerProjects />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* Admin Routes */}
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route
-            path="/admin/dashboard"
-            element={
-              <AdminRoute>
-                <AdminDashboard />
-              </AdminRoute>
-            }
-          />
-
-          {/* Fallback to Home */}
-          <Route path="*" element={<Home />} />
-        </Routes>
-        <Footer />
+        <AppContent />
       </Router>
     </AuthProvider>
   );
